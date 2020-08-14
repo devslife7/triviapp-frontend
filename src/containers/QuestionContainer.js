@@ -18,7 +18,7 @@ const QuestionContainer = (props) => {
         <div className="question-container">
             <Category category={category}/>
             <Question question={question}/><br></br>
-            <Answers correctAnswer={correct} allAnswers={makeArray()}/>
+            <Answers correctAnswer={correct} allAnswers={makeArray()} nextQuestion={props.nextQuestion}/>
         </div>
     )
 }

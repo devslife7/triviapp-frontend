@@ -8,6 +8,7 @@ export default class GameContainer extends Component {
     state = {
         questions: [],
         index: 0,
+        points: 0,
     }
     
     componentDidMount(){
@@ -27,21 +28,35 @@ export default class GameContainer extends Component {
         })
     }
     
-      fixEntities = (string) => {
+    fixEntities = (string) => {
         const Entities = require('html-entities').AllHtmlEntities;
         const entities = new Entities();
         return entities.decode(string)
-      }
+    }
     
-      randomQuestion = () => {
-        let number = Math.floor(Math.random()*this.state.questions.length)
-        return this.state.questions[number]
-      }
+    sendQuestion = () => {
+        return this.state.questions[this.state.index]
+    }
+
+    nextQuestion = (number) => {
+        if (this.state.index < 9)
+        this.setState({
+            index: this.state.index + 1,
+            points: this.state.points + number
+        })
+        else{
+            this.setState({
+                points: this.state.points + number
+            }, alert(`You got ${this.state.points}/10 questions right!`))
+            /// here we would want to redirect to home page
+            window.location.reload();
+        }
+    }
 
     render() {
         return (
             <div>
-                {this.state.questions.length !== 0 ? <QuestionContainer question={this.randomQuestion()}/> : null}
+                {this.state.questions.length !== 0 ? <QuestionContainer question={this.sendQuestion()} nextQuestion={this.nextQuestion}/> : null}
             </div>
         )
     }
