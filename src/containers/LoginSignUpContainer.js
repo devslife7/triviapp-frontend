@@ -1,13 +1,13 @@
 import React from 'react'
-import LogIn from '../components/LogIn'
+import SignIn from '../components/SignIn'
 import SignUp from '../components/SignUp'
 
 const LoginSignUpContainer = () => {
   return (
-    <div>
-      <LogIn/>
+    <>
+      <SignIn/>
       <SignUp/>
-    </div>
+    </>
   )
 }
 
