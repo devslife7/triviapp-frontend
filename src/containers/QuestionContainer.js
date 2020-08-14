@@ -1,7 +1,7 @@
 import React from 'react';
-import Category from './Category';
-import Question from './Question';
-import Answers from './Answers';
+import Category from '../components/Category';
+import Question from '../components/Question';
+import Answers from '../components/Answers';
 
 const QuestionContainer = (props) => {
     
