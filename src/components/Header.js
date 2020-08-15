@@ -19,6 +19,7 @@ const Header = () => {
     fontFamily: 'Monofett',
     fontWeight: 100,
     fontSize: 85,
+    textAlign: 'center'
   }
 
   return (

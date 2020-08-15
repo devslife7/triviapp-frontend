@@ -40,7 +40,7 @@ export default class GameContainer extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{ textAlign: 'center'}}>
                 {this.state.questions.length !== 0 ? <QuestionContainer question={this.randomQuestion()}/> : null}
             </div>
         )
