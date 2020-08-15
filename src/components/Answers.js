@@ -22,24 +22,56 @@ export default class Answers extends React.Component{
         e.preventDefault()
         if(this.state.selected === this.props.correctAnswer){
             alert("You're a genius!!!")
-            window.location.reload(false);
+            this.resetState()
+            this.props.nextQuestion(1)
         }
         else{
             alert(this.props.correctAnswer)
-            window.location.reload(false);
+            this.resetState()
+            this.props.nextQuestion(0)
         }
+    }
+
+    resetState = () => {
+        this.setState({
+            selected: ""
+        })
     }
 
     render(){
         return(
-        <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
-            <input type='radio' name='answer-choice' value={this.props.allAnswers[0]}></input>
+        <form onSubmit={this.handleSubmit}>
+            <input
+                type='radio'
+                name='answer-choice'
+                checked= {this.state.selected === this.props.allAnswers[0]}
+                value={this.props.allAnswers[0]}
+                onChange={this.handleChange}
+            />
             <label>{this.props.allAnswers[0]}</label><br></br>
-            <input type='radio' name='answer-choice' value={this.props.allAnswers[1]}></input>
+            <input
+                type='radio'
+                name='answer-choice'
+                checked= {this.state.selected === this.props.allAnswers[1]}
+                value={this.props.allAnswers[1]}
+                onChange={this.handleChange}
+            />
             <label>{this.props.allAnswers[1]}</label><br></br>
-            <input type='radio' name='answer-choice' value={this.props.allAnswers[2]}></input>
+            <input
+                type='radio'
+                name='answer-choice'
+                checked= {this.state.selected === this.props.allAnswers[2]}
+                value={this.props.allAnswers[2]}
+                onChange={this.handleChange}
+            />
             <label>{this.props.allAnswers[2]}</label><br></br>
-            <input type='radio' name='answer-choice' value={this.props.allAnswers[3]}></input>
+            <input
+                type='radio'
+                name='answer-choice'
+                checked= {this.state.selected === this.props.allAnswers[3]}
+                value={this.props.allAnswers[3]}
+                onChange={this.handleChange}
+            />
             <label>{this.props.allAnswers[3]}</label><br></br>
             <input type="submit"></input>
         </form>
