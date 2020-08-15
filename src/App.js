@@ -7,6 +7,7 @@ import Header from './components/Header'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import LogIn from './components/LogIn'
 import SignUp from './components/SignUp'
+import ModalDisplay from './components/ModalDisplay'
 // import { Button } from '@material-ui/core'
 
 export default class App extends React.Component {
@@ -14,6 +15,7 @@ export default class App extends React.Component {
   render(){
     return (
     < Router>
+      <ModalDisplay />
       <Route path='/' component={Header} />
 
       <Route exact path='/' render={ routerProps => <LoginSignUpContainer {...routerProps} />} />

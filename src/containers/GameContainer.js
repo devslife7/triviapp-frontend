@@ -27,16 +27,16 @@ export default class GameContainer extends Component {
         })
     }
     
-      fixEntities = (string) => {
-        const Entities = require('html-entities').AllHtmlEntities;
-        const entities = new Entities();
-        return entities.decode(string)
-      }
-    
-      randomQuestion = () => {
-        let number = Math.floor(Math.random()*this.state.questions.length)
-        return this.state.questions[number]
-      }
+    fixEntities = (string) => {
+    const Entities = require('html-entities').AllHtmlEntities;
+    const entities = new Entities();
+    return entities.decode(string)
+    }
+
+    randomQuestion = () => {
+    let number = Math.floor(Math.random()*this.state.questions.length)
+    return this.state.questions[number]
+    }
 
     render() {
         return (
