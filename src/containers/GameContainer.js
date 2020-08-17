@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import QuestionContainer from './QuestionContainer'
+import Modal from '@material-ui/core/Modal';
 
 const BASEURL = "http://localhost:3000/questions/"
 
@@ -9,6 +10,7 @@ export default class GameContainer extends Component {
         questions: [],
         index: 0,
         points: 0,
+        open: false
     }
     
     componentDidMount(){
@@ -53,10 +55,44 @@ export default class GameContainer extends Component {
         }
     }
 
-    render() {
+    handleOpen = () => {
+        this.setState({ open: true })
+      }
+    
+    handleClose = () => {
+        this.setState({ open: false })
+      }
+
+    body = () => {
+        // <div style={modalStyle} className={classes.paper}>
         return (
             <div>
-                {this.state.questions.length !== 0 ? <QuestionContainer question={this.sendQuestion()} nextQuestion={this.nextQuestion}/> : null}
+            <h2 id="simple-modal-title">Text in a modal</h2>
+            <p id="simple-modal-description">
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </p>
+            {/* <ModalDisplay /> */}
+            </div>
+        )
+    }
+
+    render() {
+        return (
+            <div style={{ textAlign: 'center' }}>
+                { this.state.questions.length !== 0
+                ? <QuestionContainer
+                    question={this.sendQuestion()} 
+                    nextQuestion={this.nextQuestion}/> 
+                : null}
+                <Modal
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                >
+                    {this.body}
+                </Modal>
+                <button type="button" onClick={this.handleOpen}>Open Modal</button>
             </div>
         )
     }
