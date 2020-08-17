@@ -10,8 +10,14 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const BASEURL = "http://localhost:3000/"
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function Copyright() {
   return (
@@ -48,9 +54,22 @@ const useStyles = makeStyles((theme) => ({
 const LogIn = (props) => {
 
   const [username, setUsername] = useState("");
-  const[password, setPassword] = useState("")
+  const[password, setPassword] = useState("");
+  const [open, setOpen] = useState(false);
 
   const classes = useStyles();
+
+  const openSnackBar = () => {
+    setOpen(true);
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -74,6 +93,7 @@ const LogIn = (props) => {
       
       if (data.message){
         console.error('Error:', data.message);
+        openSnackBar()
       }
       else {
         console.log(data)
@@ -139,6 +159,11 @@ const LogIn = (props) => {
       <Box mt={8}>
         <Copyright />
       </Box>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+          Invalid Username or Password
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
