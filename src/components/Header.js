@@ -12,6 +12,7 @@ const styleObj = {
   fontFamily: 'Monofett',
   fontWeight: 100,
   fontSize: 85,
+  textAlign: 'center'
 }
 
 export default class Header extends React.Component {
