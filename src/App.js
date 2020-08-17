@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import LogIn from './components/LogIn'
 import SignUp from './components/SignUp'
 import ModalDisplay from './components/ModalDisplay'
+import UserPage from './components/UserPage'
 // import { Button } from '@material-ui/core'
 
 
@@ -40,6 +41,7 @@ export default class App extends React.Component {
       <Route exact path='/signup' render={ routerProps => <SignUp {...routerProps} handleSignup={this.handleSignup} handleChange={this.handleChange} />} />
 
       <Route exact path='/game' component={GameContainer} />
+      <Route exact path='/userpage' component={UserPage} />
     </Router>
     )
   }
