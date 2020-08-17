@@ -15,7 +15,7 @@ export default class App extends React.Component {
   render(){
     return (
     < Router>
-      <ModalDisplay />
+      {/* <ModalDisplay /> */}
       <Route path='/' component={Header} />
 
       <Route exact path='/' render={ routerProps => <LoginSignUpContainer {...routerProps} />} />
