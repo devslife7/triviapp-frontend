@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import QuestionContainer from './QuestionContainer'
 import Modal from 'react-modal'
+Modal.setAppElement('#root') // removes erros caused by Modal
 
 const BASEURL = "http://localhost:3000/questions/"
 
@@ -10,7 +11,7 @@ export default class GameContainer extends Component {
         questions: [],
         index: 0,
         points: 0,
-        open: false
+        modalIsOpen: false
     }
     
     componentDidMount(){
@@ -54,32 +55,45 @@ export default class GameContainer extends Component {
         else{
             this.setState({
                 points: this.state.points + number
-            }, alert(`You got ${this.state.points}/10 questions right!`))
+            }, this.setModalIsOpen)
             /// here we would want to redirect to home page
-            window.location.reload();
+            // window.location.reload();
         }
     }
 
-    handleOpen = () => {
-        this.setState({ open: true })
-    }
-    
-    handleClose = () => {
-        this.setState({ open: false })
-    }
+    handleOpen = () => this.setState({ open: true })
+    handleClose = () => this.setState({ open: false })
 
     setModalIsOpen = () => {
-
+        this.setState({
+            modalIsOpen: !this.state.modalIsOpen
+        })
     }
 
     render() {
         return (
             <div style={{ textAlign: 'center' }}>
                 {/* <button onClick={ () => this.setModalIsOpen() }>Open Modal</button> */}
-                {/* <Modal isOpen={this.state.modalIsOpen}>
-                    <h2>Modal title</h2>
-                    <p>Modal body</p>
-                </Modal> */}
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={() => this.setModalIsOpen() }
+                    style={
+                        {
+                            overlay: {
+                                // background: ''
+                            },
+                            content: {
+                                borderRadius: '20px',
+                                margin: '140px 750px 550px 750px',
+                                textAlign: 'center'
+                            }
+                        }
+                    }
+                >
+                    <h2>Game Over</h2>
+                    <p>{`You got ${this.state.points}/10 questions right!`}</p>
+                    <button onClick={() => window.location.reload()}>Close</button>
+                </Modal>
                 { this.state.questions.length !== 0
                 ? <QuestionContainer
                     question={this.sendQuestion()} 

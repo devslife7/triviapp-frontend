@@ -44,7 +44,7 @@ export default class Header extends React.Component {
   }
 
   componentDidMount(){
-    setInterval(this.cycleColors, 1200)
+    setInterval(this.cycleColors, 1000)
   }
 
  
