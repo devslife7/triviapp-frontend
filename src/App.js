@@ -32,7 +32,7 @@ export default class App extends React.Component {
     console.log(this.props)
     return (
     < Router>
-      <ModalDisplay />
+      {/* <ModalDisplay /> */}
       <Route path='/' component={Header} />
 
       <Route exact path='/' render={ routerProps => <LogIn {...routerProps} handleLogin={this.handleLogin} handleChange={this.handleChange} />} />
