@@ -14,7 +14,12 @@ export default class GameContainer extends Component {
     }
     
     componentDidMount(){
-        fetch(BASEURL)
+        fetch(BASEURL, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.token}` // send token back to server
+            }
+        })
         .then(resp => resp.json())
         .then(questions => {
             this.setState({
@@ -57,11 +62,11 @@ export default class GameContainer extends Component {
 
     handleOpen = () => {
         this.setState({ open: true })
-      }
+    }
     
     handleClose = () => {
         this.setState({ open: false })
-      }
+    }
 
     setModalIsOpen = () => {
 
