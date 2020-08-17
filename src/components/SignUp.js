@@ -8,8 +8,15 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 
 const BASEURL = "http://localhost:3000/"
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function Copyright() {
   return (
@@ -46,7 +53,20 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp(props) {
   const [username, setUsername] = useState("")
   const[password, setPassword] = useState("")
+  const [open, setOpen] = useState(false)
   const classes = useStyles();
+
+  const openSnackBar = () => {
+    setOpen(true);
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleSignup = (e) => {
     e.preventDefault()
@@ -69,6 +89,7 @@ export default function SignUp(props) {
     .then(data => {
       if(data.error){
         console.log(data.error)
+        openSnackBar()
       }
       else{
         localStorage.token = data.jwt
@@ -76,6 +97,10 @@ export default function SignUp(props) {
       }
     })
   }
+
+
+
+  
 
   return (
     <Container component="main" maxWidth="xs">
@@ -162,6 +187,11 @@ export default function SignUp(props) {
       <Box mt={5}>
         <Copyright />
       </Box>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+        {"Sorry, this username is already taken."}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
