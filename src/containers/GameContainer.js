@@ -56,8 +56,6 @@ export default class GameContainer extends Component {
             this.setState({
                 points: this.state.points + number
             }, this.setModalIsOpen)
-            /// here we would want to redirect to home page
-            // window.location.reload();
         }
     }
 
