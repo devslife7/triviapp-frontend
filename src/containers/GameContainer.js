@@ -57,11 +57,11 @@ export default class GameContainer extends Component {
 
     handleOpen = () => {
         this.setState({ open: true })
-      }
+    }
     
     handleClose = () => {
         this.setState({ open: false })
-      }
+    }
 
     body = () => {
         // <div style={modalStyle} className={classes.paper}>
