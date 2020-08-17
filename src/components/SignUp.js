@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+const BASEURL = "http://localhost:3000/"
 
 function Copyright() {
   return (
@@ -43,8 +43,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
+  const [username, setUsername] = useState("")
+  const[password, setPassword] = useState("")
   const classes = useStyles();
+
+  const handleSignup = (e) => {
+    e.preventDefault()
+    let user = {
+      user: {
+        username: username,
+        password: password
+      }
+    }
+    let userConfig = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    }
+
+    fetch(`${BASEURL}users`, userConfig)
+    .then(resp => resp.json())
+    .then(data => {
+      if(data.error){
+        console.log(data.error)
+      }
+      else{
+        localStorage.token = data.jwt
+        props.history.push("/game")
+      }
+    })
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -53,9 +84,9 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSignup}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <TextField
                 autoComplete="name"
                 name="Name"
@@ -66,7 +97,7 @@ export default function SignUp() {
                 label="Name"
                 autoFocus
               />
-            </Grid>
+            </Grid> */}
             {/* <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -87,6 +118,7 @@ export default function SignUp() {
                 label="Username"
                 name="username"
                 autoComplete="username"
+                onChange={(e) => setUsername(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -99,6 +131,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
             {/* <Grid item xs={12}>

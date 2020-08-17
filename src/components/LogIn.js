@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +10,8 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+const BASEURL = "http://localhost:3000/"
 
 function Copyright() {
   return (
@@ -43,8 +45,44 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LogIn() {
+const LogIn = (props) => {
+
+  const [username, setUsername] = useState("");
+  const[password, setPassword] = useState("")
+
   const classes = useStyles();
+
+  const handleLogin = (e) => {
+    e.preventDefault()
+    let user = {
+      user: {
+        username: username,
+        password: password
+      }
+    }
+    let userConfig = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    }
+
+    fetch(`${BASEURL}login`, userConfig)
+    .then(resp => resp.json())
+    .then(data => {
+      
+      if (data.message){
+        console.error('Error:', data.message);
+      }
+      else {
+        console.log(data)
+        localStorage.token = data.jwt
+        props.history.push("/game")
+      }
+      
+    })
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -53,17 +91,20 @@ export default function LogIn() {
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={(e) => handleLogin(e)}>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
             autoFocus
+            onChange={ (e) => {
+              setUsername(e.target.value)
+            } }
           />
           <TextField
             variant="outlined"
@@ -75,6 +116,7 @@ export default function LogIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={ (e) => {setPassword(e.target.value)} }
           />
           <Button
             type="submit"
@@ -100,3 +142,5 @@ export default function LogIn() {
     </Container>
   );
 }
+
+export default LogIn
