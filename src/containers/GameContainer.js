@@ -90,7 +90,7 @@ export default class GameContainer extends Component {
                 >
                     <h2>Game Over</h2>
                     <p>{`You got ${this.state.points}/10 questions right!`}</p>
-                    <button onClick={() => window.location.reload()}>Close</button>
+                    <button onClick={() => this.props.history.push("/dashboard")}>Close</button>
                 </Modal>
                 { this.state.questions.length !== 0
                 ? <QuestionContainer

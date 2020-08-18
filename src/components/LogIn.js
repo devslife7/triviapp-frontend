@@ -13,7 +13,8 @@ import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
-const BASEURL = "http://localhost:3000/"
+const baseURL = 'http://localhost:3000/'
+const logInURL = baseURL + '/login'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 const LogIn = (props) => {
 
   const [username, setUsername] = useState("");
-  const[password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
 
   const classes = useStyles();
@@ -87,21 +88,22 @@ const LogIn = (props) => {
       body: JSON.stringify(user)
     }
 
-    fetch(`${BASEURL}login`, userConfig)
-    .then(resp => resp.json())
-    .then(data => {
-      
-      if (data.message){
-        console.error('Error:', data.message);
-        openSnackBar()
-      }
-      else {
-        console.log(data)
-        localStorage.token = data.jwt
-        props.history.push("/game")
-      }
-      
-    })
+    fetch( logInURL, userConfig )
+      .then(resp => resp.json())
+      .then(data => {
+        if (data.message){
+          console.error('Error:', data.message);
+          openSnackBar()
+        }
+        else {
+          console.log(data.user)
+          localStorage.token = data.jwt
+          localStorage.username = data.user.username
+          localStorage.created_at = new Date(data.user.created_at)
+
+          props.history.push("/dashboard")
+        }
+      })
   }
 
   return (

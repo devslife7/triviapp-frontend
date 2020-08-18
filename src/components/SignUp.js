@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp(props) {
   const [username, setUsername] = useState("")
-  const[password, setPassword] = useState("")
+  const [password, setPassword] = useState("")
   const [open, setOpen] = useState(false)
   const classes = useStyles();
 
@@ -92,15 +92,15 @@ export default function SignUp(props) {
         openSnackBar()
       }
       else{
+        console.log(data.user)
         localStorage.token = data.jwt
-        props.history.push("/game")
+        localStorage.username = data.user.username
+        localStorage.created_at = new Date(data.user.created_at)
+
+        props.history.push("/dashboard")
       }
     })
   }
-
-
-
-  
 
   return (
     <Container component="main" maxWidth="xs">
