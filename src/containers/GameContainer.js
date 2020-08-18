@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import QuestionContainer from './QuestionContainer'
 import Modal from 'react-modal'
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 Modal.setAppElement('#root') // removes erros caused by Modal
 
 const BASEURL = "http://localhost:3000/questions"
+
+const Alert = (props) => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export default class GameContainer extends Component {
     
@@ -11,8 +18,13 @@ export default class GameContainer extends Component {
         questions: [],
         index: 0,
         points: 0,
-        modalIsOpen: false
+        modalIsOpen: false,
+        right: false,
+        rightAnswer: "",
+        wrong: false,
     }
+
+
     
     componentDidMount(){
         fetch(BASEURL, {
@@ -30,7 +42,10 @@ export default class GameContainer extends Component {
                     let fixedIncorrect1 = this.fixEntities(newQuestion.incorrect1)
                     let fixedIncorrect2 = this.fixEntities(newQuestion.incorrect2)
                     let fixedIncorrect3 = this.fixEntities(newQuestion.incorrect3)
-                    return {...newQuestion, question: fixedQuestion, correct:fixedCorrect, incorrect1: fixedIncorrect1, incorrect2: fixedIncorrect2, incorrect3: fixedIncorrect3}
+                    let allAnswers = [fixedIncorrect1, fixedIncorrect2, fixedIncorrect3]
+                    let number = Math.floor(Math.random() * 4);
+                    allAnswers.splice(number, 0, fixedCorrect);
+                    return {...newQuestion, question: fixedQuestion, correct:fixedCorrect, incorrect1: fixedIncorrect1, incorrect2: fixedIncorrect2, incorrect3: fixedIncorrect3, allAnswers: allAnswers,}
                 })
             })
         })
@@ -43,18 +58,37 @@ export default class GameContainer extends Component {
     }
     
     sendQuestion = () => {
-        return this.state.questions[this.state.index]
+        let question = this.state.questions[this.state.index]
+        return question
     }
 
-    nextQuestion = (number) => {
-        if (this.state.index < 9)
-        this.setState({
-            index: this.state.index + 1,
-            points: this.state.points + number
-        })
+    nextQuestion = (number, rightWrong, rightAnswer) => {
+        let right;
+        let wrong;
+        if (rightWrong === "right"){
+            right = true
+            wrong = false
+        }
+        else{
+            right = false
+            wrong = true
+        }
+        if (this.state.index < 9){
+            this.setState({
+                // index: this.state.index + 1,
+                points: this.state.points + number,
+                rightAnswer: rightAnswer,
+                right: right,
+                wrong: wrong,
+            })
+            setTimeout(() => {this.setState({ index: this.state.index +1})}, 1500)
+        }
         else{
             this.setState({
-                points: this.state.points + number
+                points: this.state.points + number,
+                rightAnswer: rightAnswer,
+                right: right,
+                wrong: wrong,
             }, this.setModalIsOpen)
         }
     }
@@ -67,6 +101,28 @@ export default class GameContainer extends Component {
             modalIsOpen: !this.state.modalIsOpen
         })
     }
+
+    handleWrongClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+    
+        this.setState({
+            wrong: false
+        });
+    };
+
+    handleRightClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+    
+        this.setState({
+            right: false
+        });
+    };
+
+
 
     render() {
         return (
@@ -95,8 +151,20 @@ export default class GameContainer extends Component {
                 { this.state.questions.length !== 0
                 ? <QuestionContainer
                     question={this.sendQuestion()} 
-                    nextQuestion={this.nextQuestion}/> 
+                    nextQuestion={this.nextQuestion}
+                /> 
                 : null}
+                <Snackbar open={this.state.wrong} autoHideDuration={1500} onClose={this.handleWrongClose}>
+                    <Alert onClose={this.handleClose} severity="error">
+                    {`Sorry, the correct answer was "${this.state.rightAnswer}"!`}
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar open={this.state.right} autoHideDuration={1500} onClose={this.handleRightClose}>
+                    <Alert onClose={this.handleWrongClose} severity="success">
+                    {`That is correct!`}
+                    </Alert>
+                </Snackbar>
             </div>
         )
     }
