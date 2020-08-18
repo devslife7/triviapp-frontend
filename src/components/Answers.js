@@ -61,10 +61,10 @@ export default function Answer(props) {
                 </ListItem>
             </List>
             <Button
-                color="#primary"
+                color="primary"
                 variant='contained'
                 onClick={ () => handleSubmit()}
-                style={{width:'250px'}}
+                style={{ width: '310px', height: '45px', marginTop: '20px'}}
             >
             Submit
             </Button>
