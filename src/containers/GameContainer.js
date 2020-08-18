@@ -3,7 +3,7 @@ import QuestionContainer from './QuestionContainer'
 import Modal from 'react-modal'
 Modal.setAppElement('#root') // removes erros caused by Modal
 
-const BASEURL = "http://localhost:3000/questions/"
+const BASEURL = "https://cryptic-badlands-72293.herokuapp.com/questions"
 
 export default class GameContainer extends Component {
     

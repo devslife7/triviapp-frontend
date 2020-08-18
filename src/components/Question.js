@@ -1,17 +1,26 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles';
 
-export default class Question extends React.Component{
+const useStyles = makeStyles((theme) => ({
+    root: {
+        margin: 'auto',
+        width: '100%',
+        maxWidth: 500,
+    },
+}))
 
+const Question = (props) => {
+    const classes = useStyles()
 
-    render(){
         return(
             // <div className="question">
             //     {this.props.question}
             // </div>
-            <Typography variant="h5" gutterBottom className="question">
-                {this.props.question}
+            <Typography variant="h5" gutterBottom className={classes.root}>
+                {props.question}
             </Typography>
         )
-    }
 }
+
+export default Question

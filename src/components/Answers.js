@@ -10,17 +10,17 @@ const useStyles = makeStyles((theme) => ({
     root: {
         margin: 'auto',
         width: '100%',
-        maxWidth: 360,
+        maxWidth: 310,
         backgroundColor: theme.palette.background.paper,
     },
-  }))
+}))
 
 const textAlignCenter = {
     textAlign: 'center'
 }
 
 const selectedStyle = {
-    backgroundColor: '#4C88FA',
+    backgroundColor: '#ffb74d',
     color: 'white',
     borderRadius: '2px'
 }

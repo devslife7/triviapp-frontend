@@ -1,11 +1,12 @@
 import React from 'react'
 
 const colorsArray = [
-  '#4C88FA',
-  '#FA9F57',
-  '#AD9E23',
-  '#AD7345',
-  '#FAE53E'
+  '#e33371',
+  '#81c784',
+  '#e57373',
+  '#4791db',
+  '#ffb74d',
+  '#64b5f6'
 ]
 
 const styleObj = {
@@ -23,6 +24,7 @@ export default class Header extends React.Component {
     icolor: 2,
     vcolor: 3,
     i2color: 4,
+    acolor: 5
   }
 
 
@@ -35,11 +37,12 @@ export default class Header extends React.Component {
   cycleColors = () => {
 
     this.setState({
-      tcolor: this.state.tcolor > 0 ? this.state.tcolor - 1 : 4,
-      rcolor: this.state.rcolor > 0 ? this.state.rcolor - 1 : 4,
-      icolor: this.state.icolor > 0 ? this.state.icolor - 1 : 4,
-      vcolor: this.state.vcolor > 0 ? this.state.vcolor - 1 : 4,
-      i2color: this.state.i2color > 0 ? this.state.i2color - 1 : 4,
+      tcolor: this.state.tcolor > 0 ? this.state.tcolor - 1 : 5,
+      rcolor: this.state.rcolor > 0 ? this.state.rcolor - 1 : 5,
+      icolor: this.state.icolor > 0 ? this.state.icolor - 1 : 5,
+      vcolor: this.state.vcolor > 0 ? this.state.vcolor - 1 : 5,
+      i2color: this.state.i2color > 0 ? this.state.i2color - 1 : 5,
+      acolor: this.state.acolor > 0 ? this.state.acolor - 1 : 5,
     })
   }
 
@@ -57,9 +60,9 @@ export default class Header extends React.Component {
         <span style={{ color: colorsArray[this.state.icolor] }}>I</span>
         <span style={{ color: colorsArray[this.state.vcolor] }}>V</span>
         <span style={{ color: colorsArray[this.state.i2color] }}>I</span>
-        <span style={{ color: colorsArray[this.state.tcolor] }}>A</span>
+        <span style={{ color: colorsArray[this.state.acolor] }}>A</span>
+        <span style={{ color: colorsArray[this.state.tcolor] }}>P</span>
         <span style={{ color: colorsArray[this.state.rcolor] }}>P</span>
-        <span style={{ color: colorsArray[this.state.icolor] }}>P</span>
         
         {/* <span style={{ color: '#4C88FA' }}>T</span>
         <span style={{ color: '#FA9F57' }}>R</span>
