@@ -5,7 +5,7 @@ import Header from './components/Header'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import LogIn from './components/LogIn'
 import SignUp from './components/SignUp'
-import ModalDisplay from './components/ModalDisplay'
+import 'fontsource-roboto'
 import UserPage from './components/UserPage'
 // import { Button } from '@material-ui/core'
 
@@ -17,9 +17,7 @@ export default class App extends React.Component {
     username: "",
     password: "",
   }
-
   
-
   handleChange = (e) => {
     console.dir(e.target.value)
     this.setState({
