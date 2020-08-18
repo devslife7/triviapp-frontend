@@ -44,6 +44,10 @@ const Dashboard = (props) => {
         props.history.push("/game")
     }
 
+    const handleJoinGame = () => {
+        props.history.push("/creategame")
+    }
+
     
     return(
         <Container maxWidth="lg">
@@ -58,10 +62,12 @@ const Dashboard = (props) => {
                             <Button onClick={handelLogOut} variant='outlined' color='primary'>Log out</Button>
                         </Paper>
                     </Grid>
+                    
                     <Grid item xs={4} >
                         <Paper elevation={4} style={buttonStyle}>
                             <Button onClick={handleNewGame} variant='contained' color='primary'>New Game</Button>
-                            <Button variant='contained' color='primary'>More Options</Button>
+                            <Button onClick={handleJoinGame} variant='contained' color='primary'>Join Game</Button>
+                            {/* <Button variant='contained' color='primary'>More Options</Button> */}
                         </Paper>
                     </Grid>
                 </Grid>
