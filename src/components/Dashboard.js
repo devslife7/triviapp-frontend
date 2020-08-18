@@ -22,16 +22,18 @@ const useStyles = makeStyles((theme) => ({
 
 const gridStyle = {
     backgroundColor: '#f1f1f1',
-    borderRadius: '10px'
+    borderRadius: '10px',
+    padding: '80px 0px'
 }
 
 const buttonStyle = {
     display: 'flex',
-    justifyContent: 'space-around',
-    width: '400px', padding: '50px'
+    justifyContent: 'space-between',
+    padding: '50px 80px',
+    width: '300px'
 }
 
-const Dashboard = (props) => {
+function Dashboard(props) {
     const classes = useStyles()
 
     const handelLogOut = () => {
@@ -47,20 +49,23 @@ const Dashboard = (props) => {
     
     return(
         <Container maxWidth="lg">
-            <Grid container direction='row' justify='space-evenly' alignItems='center' >
-                <Grid item xs={6} container direction='column' justify='space-between' spacing={10}>
-                    <Grid item xs={8} >
-                        <Paper elevation={4} style={{ textAlign: 'center', padding: '10px' }}>
+            <Grid container direction='row' justify='space-evenly' alignItems='center' style={gridStyle} >
+                <Grid item xs={6} container direction='column' justify='space-between' alignItems='center' spacing={10} >
+                    <Grid item xs={12}>
+                        <Paper elevation={4} style={{ textAlign: 'center', padding: '30px', width: '350px' }}>
                             <Avatar src="/broken-image.jpg" style={{margin: 'auto'}} className={classes.large}/>
+                            <h3>Welcome, {localStorage.name}!</h3>
                             <h3>{localStorage.username}</h3>
-                            <p>{localStorage.created_at.split(' GMT')[0]}</p>
-                            <Button variant='outlined' color='primary'>Edit</Button>
-                            <Button onClick={handelLogOut} variant='outlined' color='primary'>Log out</Button>
+                            <p>Member since: {localStorage.created_at.split(' 2020')[0]}</p>
+                            <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '40px'}}>
+                                <Button variant='outlined' color='primary'>Edit</Button>
+                                <Button onClick={handelLogOut} variant='outlined' color='primary'>Log out</Button>
+                            </div>
                         </Paper>
                     </Grid>
-                    <Grid item xs={4} >
+                    <Grid item xs={12} >
                         <Paper elevation={4} style={buttonStyle}>
-                            <Button onClick={handleNewGame} variant='contained' color='primary'>New Game</Button>
+                            <Button onClick={handleNewGame} variant='contained' color='primary' >New Game</Button>
                             <Button variant='contained' color='primary'>More Options</Button>
                         </Paper>
                     </Grid>

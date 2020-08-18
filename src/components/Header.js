@@ -63,15 +63,6 @@ export default class Header extends React.Component {
         <span style={{ color: colorsArray[this.state.acolor] }}>A</span>
         <span style={{ color: colorsArray[this.state.tcolor] }}>P</span>
         <span style={{ color: colorsArray[this.state.rcolor] }}>P</span>
-        
-        {/* <span style={{ color: '#4C88FA' }}>T</span>
-        <span style={{ color: '#FA9F57' }}>R</span>
-        <span style={{ color: '#AD9E23' }}>I</span>
-        <span style={{ color: '#AD7345' }}>V</span>
-        <span style={{ color: '#FAE53E' }}>I</span>
-        <span style={{ color: '#4C88FA' }}>A</span>
-        <span style={{ color: '#FA9F57' }}>P</span>
-        <span style={{ color: '#AD9E23' }}>P</span> */}
       </h1>
     </>
   )}

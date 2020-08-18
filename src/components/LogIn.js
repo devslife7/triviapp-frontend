@@ -99,6 +99,7 @@ const LogIn = (props) => {
           console.log(data.user)
           localStorage.token = data.jwt
           localStorage.username = data.user.username
+          localStorage.name = data.user.name
           localStorage.created_at = new Date(data.user.created_at)
 
           props.history.push("/dashboard")

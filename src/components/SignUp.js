@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp(props) {
   const [username, setUsername] = useState("")
+  const [name, setName] = useState("")
   const [password, setPassword] = useState("")
   const [open, setOpen] = useState(false)
   const classes = useStyles();
@@ -72,6 +73,7 @@ export default function SignUp(props) {
     e.preventDefault()
     let user = {
       user: {
+        name: name,
         username: username,
         password: password
       }
@@ -95,6 +97,7 @@ export default function SignUp(props) {
         console.log(data.user)
         localStorage.token = data.jwt
         localStorage.username = data.user.username
+        localStorage.name = data.user.name
         localStorage.created_at = new Date(data.user.created_at)
 
         props.history.push("/dashboard")
@@ -111,7 +114,7 @@ export default function SignUp(props) {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSignup}>
           <Grid container spacing={2}>
-            {/* <Grid item xs={12}>
+            <Grid item xs={12}>
               <TextField
                 autoComplete="name"
                 name="Name"
@@ -121,8 +124,9 @@ export default function SignUp(props) {
                 id="Name"
                 label="Name"
                 autoFocus
+                onChange={(e) => setName(e.target.value)}
               />
-            </Grid> */}
+            </Grid>
             {/* <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -139,7 +143,7 @@ export default function SignUp(props) {
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
+                id="username"
                 label="Username"
                 name="username"
                 autoComplete="username"
