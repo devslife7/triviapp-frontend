@@ -5,12 +5,8 @@ import Header from './components/Header'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import LogIn from './components/LogIn'
 import SignUp from './components/SignUp'
-<<<<<<< HEAD
-import 'fontsource-roboto';
-=======
-import ModalDisplay from './components/ModalDisplay'
+import 'fontsource-roboto'
 import UserPage from './components/UserPage'
->>>>>>> 209965a8db2a292777bd64034ef29c89089da155
 // import { Button } from '@material-ui/core'
 
 
