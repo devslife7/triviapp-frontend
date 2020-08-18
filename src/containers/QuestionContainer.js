@@ -1,24 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Category from '../components/Category';
 import Question from '../components/Question';
 import Answers from '../components/Answers';
 
 const QuestionContainer = (props) => {
     
-    let { category, correct, incorrect1, incorrect2, incorrect3, question } = props.question
-    const wrongAnswers = [incorrect1, incorrect2, incorrect3]
+    let { category, correct, allAnswers, question } = props.question
 
-    const makeArray = () => {
-        let number = Math.floor(Math.random() * 4);
-        wrongAnswers.splice(number, 0, correct);
-        return(wrongAnswers)
-    }
+
 
     return(
         <div className="question-container">
             <Category category={category}/>
             <Question question={question}/><br></br>
-            <Answers correctAnswer={correct} allAnswers={makeArray()} nextQuestion={props.nextQuestion}/>
+            <Answers correctAnswer={correct} allAnswers={allAnswers} nextQuestion={props.nextQuestion}/>
         </div>
     )
 }

@@ -42,7 +42,10 @@ export default class GameContainer extends Component {
                     let fixedIncorrect1 = this.fixEntities(newQuestion.incorrect1)
                     let fixedIncorrect2 = this.fixEntities(newQuestion.incorrect2)
                     let fixedIncorrect3 = this.fixEntities(newQuestion.incorrect3)
-                    return {...newQuestion, question: fixedQuestion, correct:fixedCorrect, incorrect1: fixedIncorrect1, incorrect2: fixedIncorrect2, incorrect3: fixedIncorrect3}
+                    let allAnswers = [fixedIncorrect1, fixedIncorrect2, fixedIncorrect3]
+                    let number = Math.floor(Math.random() * 4);
+                    allAnswers.splice(number, 0, fixedCorrect);
+                    return {...newQuestion, question: fixedQuestion, correct:fixedCorrect, incorrect1: fixedIncorrect1, incorrect2: fixedIncorrect2, incorrect3: fixedIncorrect3, allAnswers: allAnswers,}
                 })
             })
         })
@@ -55,7 +58,8 @@ export default class GameContainer extends Component {
     }
     
     sendQuestion = () => {
-        return this.state.questions[this.state.index]
+        let question = this.state.questions[this.state.index]
+        return question
     }
 
     nextQuestion = (number, rightWrong, rightAnswer) => {
@@ -77,7 +81,7 @@ export default class GameContainer extends Component {
                 right: right,
                 wrong: wrong,
             })
-            setTimeout(() => {this.setState({ index: this.state.index +1})}, 2000)
+            setTimeout(() => {this.setState({ index: this.state.index +1})}, 1500)
         }
         else{
             this.setState({
@@ -147,15 +151,16 @@ export default class GameContainer extends Component {
                 { this.state.questions.length !== 0
                 ? <QuestionContainer
                     question={this.sendQuestion()} 
-                    nextQuestion={this.nextQuestion}/> 
+                    nextQuestion={this.nextQuestion}
+                /> 
                 : null}
-                <Snackbar open={this.state.wrong} autoHideDuration={2000} onClose={this.handleWrongClose}>
+                <Snackbar open={this.state.wrong} autoHideDuration={1500} onClose={this.handleWrongClose}>
                     <Alert onClose={this.handleClose} severity="error">
                     {`Sorry, the correct answer was "${this.state.rightAnswer}"!`}
                     </Alert>
                 </Snackbar>
 
-                <Snackbar open={this.state.right} autoHideDuration={2000} onClose={this.handleRightClose}>
+                <Snackbar open={this.state.right} autoHideDuration={1500} onClose={this.handleRightClose}>
                     <Alert onClose={this.handleWrongClose} severity="success">
                     {`That is correct!`}
                     </Alert>
