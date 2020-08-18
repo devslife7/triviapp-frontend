@@ -6,40 +6,24 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import LogIn from './components/LogIn'
 import SignUp from './components/SignUp'
 import 'fontsource-roboto'
-import UserPage from './components/UserPage'
-// import { Button } from '@material-ui/core'
-
-
+import Dashboard from './components/Dashboard'
 
 export default class App extends React.Component {
-
   state = {
-    username: "",
-    password: "",
+    userData: {}
   }
-  
-  handleChange = (e) => {
-    console.dir(e.target.value)
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  
 
   render(){
-    console.log(this.props)
     return (
     < Router>
-      {/* <ModalDisplay /> */}
       <Route path='/' component={Header} />
 
-      <Route exact path='/' render={ routerProps => <LogIn {...routerProps} handleLogin={this.handleLogin} handleChange={this.handleChange} />} />
-      <Route exact path='/login' render={ routerProps => <LogIn {...routerProps} handleLogin={this.handleLogin} handleChange={this.handleChange} />} />
-      <Route exact path='/signup' render={ routerProps => <SignUp {...routerProps} handleSignup={this.handleSignup} handleChange={this.handleChange} />} />
+      <Route exact path='/' render={ routerProps => <LogIn {...routerProps} handleLogin={this.handleLogin} />} />
+      <Route exact path='/login' render={ routerProps => <LogIn {...routerProps} handleLogin={this.handleLogin} />} />
+      <Route exact path='/signup' render={ routerProps => <SignUp {...routerProps} handleSignup={this.handleSignup} />} />
 
       <Route exact path='/game' component={GameContainer} />
-      <Route exact path='/userpage' component={UserPage} />
+      <Route exact path='/dashboard' render={ routerProps => <Dashboard {...routerProps} userData={this.state.userData} />} />
     </Router>
     )
   }
