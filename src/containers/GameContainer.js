@@ -69,14 +69,16 @@ export default class GameContainer extends Component {
             right = false
             wrong = true
         }
-        if (this.state.index < 9)
-        this.setState({
-            index: this.state.index + 1,
-            points: this.state.points + number,
-            rightAnswer: rightAnswer,
-            right: right,
-            wrong: wrong,
-        })
+        if (this.state.index < 9){
+            this.setState({
+                // index: this.state.index + 1,
+                points: this.state.points + number,
+                rightAnswer: rightAnswer,
+                right: right,
+                wrong: wrong,
+            })
+            setTimeout(() => {this.setState({ index: this.state.index +1})}, 2000)
+        }
         else{
             this.setState({
                 points: this.state.points + number,
@@ -103,6 +105,16 @@ export default class GameContainer extends Component {
     
         this.setState({
             wrong: false
+        });
+    };
+
+    handleRightClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+    
+        this.setState({
+            right: false
         });
     };
 
@@ -137,13 +149,13 @@ export default class GameContainer extends Component {
                     question={this.sendQuestion()} 
                     nextQuestion={this.nextQuestion}/> 
                 : null}
-                <Snackbar open={this.state.wrong} autoHideDuration={3000} onClose={this.handleWrongClose}>
+                <Snackbar open={this.state.wrong} autoHideDuration={2000} onClose={this.handleWrongClose}>
                     <Alert onClose={this.handleClose} severity="error">
-                    {`Sorry, the correct answer was ${this.state.rightAnswer}!`}
+                    {`Sorry, the correct answer was "${this.state.rightAnswer}"!`}
                     </Alert>
                 </Snackbar>
 
-                <Snackbar open={this.state.right} autoHideDuration={3000} onClose={this.handleWrongClose}>
+                <Snackbar open={this.state.right} autoHideDuration={2000} onClose={this.handleRightClose}>
                     <Alert onClose={this.handleWrongClose} severity="success">
                     {`That is correct!`}
                     </Alert>
