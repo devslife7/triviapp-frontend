@@ -58,11 +58,13 @@ const JoinGame = (props) => {
         fetch(`${BASEURL}user_games`, userGameConfig)
         .then(resp => resp.json())
         .then(data => {
+            localStorage.usergame = data.usergame.id
             props.history.push({
                 pathname: '/gamelobby',
                 state: { 
                     name: name,
                     gameId: id,
+                    
                 }
             })
         })

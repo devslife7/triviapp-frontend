@@ -55,13 +55,14 @@ const CreateGame = (props) => {
         fetch(BASEURL, gameConfig)
         .then(resp => resp.json())
         .then(data => {
-            props.history.push({
-                pathname: '/gamelobby',
-                state: { 
-                    name: name,
-                    gameId: data.game.id
-                }
-            })
+            localStorage.usergame = data.game.user_games[0].id
+            // props.history.push({
+            //     pathname: '/gamelobby',
+            //     state: { 
+            //         name: name,
+            //         gameId: data.game.id
+            //     }
+            // })
         })
         
     }

@@ -6,7 +6,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 
 Modal.setAppElement('#root') // removes erros caused by Modal
 
-const BASEURL = "http://localhost:3000/questions"
+const BASEURL = "http://localhost:3000/games/"
 
 const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -25,16 +25,16 @@ export default class GameContainer extends Component {
     }
     
     componentDidMount(){
-        fetch(BASEURL, {
+        fetch(`${BASEURL}${this.props.location.state.gameId}`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${localStorage.token}` // send token back to server
             }
         })
         .then(resp => resp.json())
-        .then(questions => {
+        .then(data => {
             this.setState({
-                questions: questions.map(newQuestion => {
+                questions: data.game.questions.map(newQuestion => {
                     let fixedQuestion = this.fixEntities(newQuestion.question)
                     let fixedCorrect = this.fixEntities(newQuestion.correct)
                     let fixedIncorrect1 = this.fixEntities(newQuestion.incorrect1)
