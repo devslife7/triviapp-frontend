@@ -32,12 +32,10 @@ export default function Answer(props) {
 
     const handleSubmit = () => {
         if(selected === props.correctAnswer){
-            alert("You're a genius!!!")
-            props.nextQuestion(1)
+            props.nextQuestion(1, "right", props.correctAnswer)
         }
         else{
-            alert(props.correctAnswer)
-            props.nextQuestion(0)
+            props.nextQuestion(0, "wrong", props.correctAnswer)
         }
         setSelected('')
     }
