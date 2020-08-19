@@ -45,33 +45,27 @@ const BASEURL= "http://localhost:3000/games/"
 
 
 const GameLobby = (props) => {
+    const [users, setUsers] = useState([])
     const classes = useStyles();
-    const [ progress, setProgress ] = useState(0)
-
-    const gameObj = {"game": {
-        "username": localStorage.username,
-        "name": props.location.state.name,
-        "active": true
-    }}
-
-    const gameConfig = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(gameObj)
-    }
 
     useEffect(() => {
-        setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 1));
-        }, 500);
-        fetch(BASEURL, gameConfig)
-        .then(resp => resp.json())
-        .then(data => {
-            localStorage.gameId = data.id
-        })
+        const getUsers = setInterval(()=> {
+            fetch(`${BASEURL}${props.location.state.gameId}`)
+            .then(resp => resp.json())
+            .then(data => {
+                let newUsers = data.game.user_games.map(usergame => {
+                    return usergame.user.username
+                })
+                setUsers(newUsers)
+            })
+            }, 3000)
+        return () => clearInterval(getUsers);
     }, []);
+
+    const renderUsers = () => {
+        return users.map(user => <Button variant="outlined" color="primary" className={classes.button}>{user}</Button>)
+    }
+
     
     return(
         <div className={classes.root}>
@@ -80,32 +74,10 @@ const GameLobby = (props) => {
                     {props.location.state.name}
                 </Typography>
                 <Container className={classes.container}>
-                    <Button variant="outlined" color="primary" className={classes.button}>
-                        {localStorage.username}
-                    </Button>
-                    <Button variant="outlined" color="primary" className={classes.button}>
-                        Marcos
-                    </Button>
-                    <Button variant="outlined" color="primary" className={classes.button}>
-                        Princeton
-                    </Button>
-                    <Button variant="outlined" color="primary" className={classes.button}>
-                        Dave
-                    </Button>
-                    <Button variant="outlined" color="primary" className={classes.button}>
-                        David
-                    </Button>
-                    <Button variant="outlined" color="primary" className={classes.button}>
-                        Michael
-                    </Button>
-                    <Button variant="outlined" color="primary" className={classes.button}>
-                        Mike
-                    </Button>
-
-                    
+                    {renderUsers()}
                 </Container>
 
-                <CircularProgress variant="static" value={progress} />
+                <CircularProgress />
             </Paper>
         </div>
     )

@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+const BASEURL= "http://localhost:3000/games/"
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -37,10 +39,30 @@ const CreateGame = (props) => {
     }
 
     const handleClick = (e) => {
-        props.history.push({
-            pathname: '/gamelobby',
-            state: { name: name }
+        const gameObj = {"game": {
+            "username": localStorage.username,
+            "name": name,
+            "active": true
+        }}
+        const gameConfig = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(gameObj)
+        }
+        fetch(BASEURL, gameConfig)
+        .then(resp => resp.json())
+        .then(data => {
+            props.history.push({
+                pathname: '/gamelobby',
+                state: { 
+                    name: name,
+                    gameId: data.game.id
+                }
+            })
         })
+        
     }
     
     return(
