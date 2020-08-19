@@ -23,8 +23,6 @@ export default class GameContainer extends Component {
         rightAnswer: "",
         wrong: false,
     }
-
-
     
     componentDidMount(){
         fetch(BASEURL, {

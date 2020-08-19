@@ -81,7 +81,7 @@ function Dashboard(props) {
                     <Paper elevation={6} style={{ height: '500px', textAlign: 'center', padding: '5px'}}>
                         <h2>Friend List</h2>
                         { user.friends.map( ( f, idx ) => <p key={idx}> {f.username} </p>) }
-                        <Button variant='outlined' color='primary'>Find Friends</Button>
+                        <Button onClick={() => props.history.push("/friends") } variant='outlined' color='primary'>Find Friends</Button>
                     </Paper>
                 </Grid>
             </Grid>
