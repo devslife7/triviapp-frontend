@@ -58,8 +58,6 @@ function Dashboard(props) {
 
     const handleNewGame = () => props.history.push("/game")
 
-    const handleJoinGame = () => props.history.push("/creategame")
-
     const displayFriendList = () => {
         return friendList.map( ( friend, idx ) =>
             <p key={idx}> {friend.name} </p>
@@ -77,6 +75,15 @@ function Dashboard(props) {
         })
     }
 
+    const handleCreateGame = () => {
+        props.history.push("/creategame")
+    }
+
+    const handleJoinGame = () => {
+        props.history.push("/joingame")
+    }
+
+    
     return(
         <Container maxWidth="lg">
             <Grid container direction='row' justify='space-evenly' alignItems='center' className={classes.gridStyle} >
@@ -96,16 +103,10 @@ function Dashboard(props) {
                     
                     <Grid item xs={4} >
                         <Paper elevation={4} className={classes.buttonStyle}>
-                            <Button
-                                onClick={handleNewGame}
-                                variant='contained' color='primary'
-                                >Solo Game
-                            </Button>
-                            <Button
-                                onClick={handleJoinGame}
-                                variant='contained' color='primary'
-                                >Multi-Player Game
-                            </Button>
+                            <Button onClick={handleNewGame} variant='contained' color='primary'>Solo Game</Button>
+                            <Button onClick={handleCreateGame} variant='contained' color='primary'>Multi-Player Game</Button>
+                            <Button onClick={handleJoinGame} variant='contained' color='primary'>Join Game</Button>
+                            {/* <Button variant='contained' color='primary'>More Options</Button> */}
                         </Paper>
                     </Grid>
                 </Grid>

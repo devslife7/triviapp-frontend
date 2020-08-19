@@ -98,6 +98,7 @@ const LogIn = (props) => {
         else {
           console.log(data)
           localStorage.token = data.jwt
+          localStorage.username = data.user.username
           localStorage.userData = JSON.stringify( data.user )
           props.history.push("/dashboard")
         }

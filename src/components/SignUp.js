@@ -96,6 +96,7 @@ export default function SignUp(props) {
       }
       else{
         localStorage.token = data.jwt
+        localStorage.username = data.user.username
         localStorage.userData = JSON.stringify( data.user )
         props.history.push("/dashboard")
       }

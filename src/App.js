@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard'
 import GameLobby from './components/GameLobby'
 import CreateGame from './components/CreateGame'
 import Friends from './components/Friends'
+import JoinGame from './components/JoinGame'
 
 export default class App extends React.Component {
   state = {
@@ -30,6 +31,7 @@ export default class App extends React.Component {
       <Route exact path='/dashboard' render={ routerProps => <Dashboard {...routerProps} userData={this.state.userData} />} />
       <Route exact path='/gamelobby' render={ routerProps => <GameLobby {...routerProps} username={localStorage.username}/>} />
       <Route exact path='/creategame' render={ routerProps => <CreateGame {...routerProps} username={localStorage.username}/>} />
+      <Route exact path='/joingame' render={ routerProps => <JoinGame {...routerProps} username={localStorage.username}/>} />
     </Router>
     )
   }
