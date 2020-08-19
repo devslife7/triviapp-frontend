@@ -48,11 +48,41 @@ const GameLobby = (props) => {
     const [users, setUsers] = useState([])
     const classes = useStyles();
 
+
+    const endWait = () => {
+        const gameObj = {"game": {
+            "active": true,
+            "waiting": false,
+        }}
+        const gameConfig = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(gameObj)
+        }
+        fetch(`${BASEURL}${props.location.state.gameId}`, gameConfig)
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data)
+        })
+    }
+
     useEffect(() => {
+        setTimeout(endWait, 30000)
         const getUsers = setInterval(()=> {
             fetch(`${BASEURL}${props.location.state.gameId}`)
             .then(resp => resp.json())
             .then(data => {
+                if (data.game.waiting === false){
+                    props.history.push({
+                        pathname: '/game',
+                        state: { 
+                            gameId: data.game.id
+                        }
+                    })
+                    return
+                }
                 let newUsers = data.game.user_games.map(usergame => {
                     return usergame.user.username
                 })
@@ -63,7 +93,7 @@ const GameLobby = (props) => {
     }, []);
 
     const renderUsers = () => {
-        return users.map(user => <Button variant="outlined" color="primary" className={classes.button}>{user}</Button>)
+        return users.map(user => <Button variant="outlined" color="primary" key={user} className={classes.button}>{user}</Button>)
     }
 
     

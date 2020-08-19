@@ -42,7 +42,8 @@ const CreateGame = (props) => {
         const gameObj = {"game": {
             "username": localStorage.username,
             "name": name,
-            "active": true
+            "active": false,
+            "waiting": true,
         }}
         const gameConfig = {
             method: "POST",
