@@ -68,7 +68,6 @@ function Dashboard(props) {
             state: {
                 currentUser: currentUser,
                 friendList: friendList,
-                // setFriendList: setFriendList
             }
         })
     }

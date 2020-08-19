@@ -4,6 +4,10 @@ import { Grid } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar'
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,6 +19,7 @@ import Typography from '@material-ui/core/Typography'
 import DeleteIcon from '@material-ui/icons/Delete';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import HomeIcon from '@material-ui/icons/Home';
+import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 
 const baseURL = 'http://localhost:3000/'
 const userURL = baseURL + 'users/'
@@ -35,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   gridStyle: {
       backgroundColor: '#EAEAEA',
       borderRadius: '20px',
-      padding: '80px 0px'
+      padding: '0px 0px'
   },
   title: {
     margin: theme.spacing(4, 0, 2),
@@ -46,6 +51,7 @@ const Friends = (props) => {
   const classes = useStyles()
   const [ userList, setUserList ] = useState([])
   const [ friendList, setFriendList ] = useState([])
+  const [ searchTerm, setSearchTerm ] = React.useState('')
   const currentUser = props.history.location.state.currentUser
 
   useEffect( () => {
@@ -83,16 +89,11 @@ const Friends = (props) => {
 
         friendIds = friendList.map( friend => friend.id )
         console.log(friendIds)
-        // const updatedUserList = userList.filter( user => !friendIds.includes(user.id))
-        // console.log( updatedUserList )
-        // setUserList( updatedUserList )
       })
   }
 
   function generateFriends() {
     console.log('renders friendlist')
-    // const friendList = props.history.location.state.friendList
-    // setFriendList(props.history.location.state.friendList)
   
     return friendList.map( ( friend, idx ) =>
       <ListItem key={friend.id}>
@@ -115,8 +116,11 @@ const Friends = (props) => {
   function generateUsers(userList) {
     const currentUser = props.history.location.state.currentUser
     const friendIds = friendList.map( user => user.id )
+    
 
     userList = userList.filter( user => user.id !== currentUser.id )
+
+    userList = userList.filter( user => user.name.toLowerCase().includes(searchTerm.toLowerCase()) )
   
     return userList.map( ( user, idx) => 
       <ListItem style={{ textAlign: 'center'}} key={idx}>
@@ -129,13 +133,17 @@ const Friends = (props) => {
         />
         { !friendIds.includes( user.id ) ?
         <IconButton edge="end" aria-label="delete" onClick={ (e) => handleAddFriend( user.id )}>
-          <GroupAddIcon />
+          <GroupAddIcon color='primary' />
         </IconButton>
-        : 'already friends'
+        : <PersonAddDisabledIcon color='disabled' />
         }
       </ListItem>,
-    {/* && !friendIds.includes( user.id ) */}
     )
+  }
+  const [age, setAge] = React.useState('')
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
   }
   
   return (
@@ -143,14 +151,16 @@ const Friends = (props) => {
       <Container maxWidth="lg">
         <Grid container justify='center' alignItems='center' spacing={10} className={classes.gridStyle}>
           <Grid item xs={4} style={{ marginBotton: '300px'}}>
-            <Paper elevation={6} style={{ height: '500px', textAlign: 'center', padding: '5px'}}>
+            <Paper elevation={2} >
+              <Typography variant="h5" className={classes.title} style={{ textAlign: 'center' }}>
+                Friend List
+              </Typography>
+            </Paper>
+            <Paper elevation={6} style={{ height: '600px', textAlign: 'center', padding: '5px'}}>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6} style={{ maxWidth: '100%', flexBasis: '100%'}}>
-                  <Typography variant="h6" className={classes.title}>
-                    Friend List
-                  </Typography>
                   <div>
-                    <List >
+                    <List>
                       { generateFriends() }
                     </List>
                   </div>
@@ -161,15 +171,34 @@ const Friends = (props) => {
           <IconButton style={{backgroundColor: '#4791db'}} onClick={ () => props.history.push('/dashboard')} >
             <HomeIcon />
           </IconButton>
-          <Grid item xs={4} style={{ marginBotton: '300px'}}>
-            <Paper elevation={6} style={{ height: '500px', textAlign: 'center', padding: '5px'}}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6} style={{ maxWidth: '100%', flexBasis: '100%'}}>
-                <Typography variant="h6" className={classes.title}>
+          <Grid item xs={4} style={{ marginBotton: '100px'}}>
+            <Paper elevation={6} style={{ marginBottom: '5px'}} >
+                <Typography variant="h5" className={classes.title} style={{ textAlign: 'center' }}>
                   All Users
                 </Typography>
-                <div>
-                  <List >
+                <div style={{ display: 'flex'}}>
+                  <TextField onChange={ e => setSearchTerm(e.target.value) } id="standard-basic" label="Search Users..." style={{ margin: '0px 20px 20px 20px'}}/>
+                  <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+                  <Select
+                    value={age}
+                    onChange={handleChange}
+                    displayEmpty
+                    className={classes.selectEmpty}
+                    inputProps={{ 'aria-label': 'Without label' }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Alph. Up</MenuItem>
+                    <MenuItem value={20}>Alph. Down</MenuItem>
+                  </Select>
+                </div>  
+            </Paper>
+            <Paper elevation={5} style={{ height: '500px', textAlign: 'center', padding: '5px', overflow: 'auto'}}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6} style={{ maxWidth: '100%', flexBasis: '100%'}}>
+                <div >
+                  <List>
                     { generateUsers(userList) }
                   </List>
                 </div>
