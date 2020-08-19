@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       '& > *': {
         margin: theme.spacing(1),
         width: "350px",
-        height: "240px",
+        height: "450px",
         },
     },
     paper: {
@@ -28,13 +28,15 @@ const useStyles = makeStyles((theme) => ({
         margin: "20px",
     },
     container: {
-        height: "330px",
+        height: "300px",
         overflow: "scroll",
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: "20px",
     },
+    button: {
+        marginBottom: "20px"
+    }
 }));
 
 
@@ -71,12 +73,20 @@ const JoinGame = (props) => {
     }
 
     useEffect(() => {
-        fetch(`${BASEURL}/games/`)
-        .then(resp => resp.json())
-        .then(data => {
+        const getGames = setInterval(() => {
+            fetch(`${BASEURL}/games/`)
+            .then(resp => resp.json())
+            .then(data => {
             setGames(data.games)
         })
+        }, 1000)
+        return () => clearInterval(getGames)
     }, [])
+
+    const handleClick = () => {
+        localStorage.usergame = ""
+        props.history.push("/dashboard")
+    }
 
     const renderGames = () => {
         return games.map(game => <Button variant="outlined" color="primary" key={game.id} className={classes.button} onClick={(e) => joinGame(game.name, game.id)}>{game.name}</Button>)
@@ -91,6 +101,7 @@ const JoinGame = (props) => {
                 <Container className={classes.container}>
                     {renderGames()}
                 </Container>
+                <Button variant="outlined" className={classes.button} color="secondary" onClick={handleClick}>Dashboard</Button>
             </Paper>
         </div>
     )

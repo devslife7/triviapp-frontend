@@ -46,6 +46,7 @@ const BASEURL= "http://localhost:3000/games/"
 
 const GameLobby = (props) => {
     const [users, setUsers] = useState([])
+    const [creator, setCreator] = useState(false)
     const classes = useStyles();
 
 
@@ -69,7 +70,10 @@ const GameLobby = (props) => {
     }
 
     useEffect(() => {
-        setTimeout(endWait, 10000)
+        setTimeout(endWait, 120000)
+        if(props.location.state.creator){
+            setCreator(true)
+        }
         const getUsers = setInterval(()=> {
             fetch(`${BASEURL}${props.location.state.gameId}`)
             .then(resp => resp.json())
@@ -107,7 +111,7 @@ const GameLobby = (props) => {
                     {renderUsers()}
                 </Container>
 
-                <CircularProgress />
+                { creator ? <Button variant="outlined" color="secondary" onClick={endWait}>Start Game</Button> : <CircularProgress />}
             </Paper>
         </div>
     )
