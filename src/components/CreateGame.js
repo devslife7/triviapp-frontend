@@ -60,7 +60,8 @@ const CreateGame = (props) => {
                 pathname: '/gamelobby',
                 state: { 
                     name: name,
-                    gameId: data.game.id
+                    gameId: data.game.id,
+                    creator: true,
                 }
             })
         })
