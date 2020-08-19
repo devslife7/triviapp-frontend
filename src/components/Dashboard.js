@@ -12,13 +12,13 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         width: theme.spacing(16),
         height: theme.spacing(16),
-      },
+    },
     },
     large: {
         width: theme.spacing(7),
         height: theme.spacing(7),
-      },
-  }));
+    },
+}));
 
 const gridStyle = {
     backgroundColor: '#f1f1f1',
@@ -46,6 +46,10 @@ function Dashboard(props) {
         props.history.push("/game")
     }
 
+    const handleJoinGame = () => {
+        props.history.push("/creategame")
+    }
+
     
     return(
         <Container maxWidth="lg">
@@ -63,10 +67,12 @@ function Dashboard(props) {
                             </div>
                         </Paper>
                     </Grid>
-                    <Grid item xs={12} >
+                    
+                    <Grid item xs={4} >
                         <Paper elevation={4} style={buttonStyle}>
-                            <Button onClick={handleNewGame} variant='contained' color='primary' >New Game</Button>
-                            <Button variant='contained' color='primary'>More Options</Button>
+                            <Button onClick={handleNewGame} variant='contained' color='primary'>Solo Game</Button>
+                            <Button onClick={handleJoinGame} variant='contained' color='primary'>Multi-Player Game</Button>
+                            {/* <Button variant='contained' color='primary'>More Options</Button> */}
                         </Paper>
                     </Grid>
                 </Grid>

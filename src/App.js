@@ -7,6 +7,8 @@ import LogIn from './components/LogIn'
 import SignUp from './components/SignUp'
 import 'fontsource-roboto'
 import Dashboard from './components/Dashboard'
+import GameLobby from './components/GameLobby'
+import CreateGame from './components/CreateGame'
 
 export default class App extends React.Component {
   state = {
@@ -24,6 +26,8 @@ export default class App extends React.Component {
 
       <Route exact path='/game' component={GameContainer} />
       <Route exact path='/dashboard' render={ routerProps => <Dashboard {...routerProps} userData={this.state.userData} />} />
+      <Route exact path='/gamelobby' render={ routerProps => <GameLobby {...routerProps} username={localStorage.username}/>} />
+      <Route exact path='/creategame' render={ routerProps => <CreateGame {...routerProps} username={localStorage.username}/>} />
     </Router>
     )
   }
