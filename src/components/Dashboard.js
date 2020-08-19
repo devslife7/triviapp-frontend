@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { Grid } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
+
+const baseURL = 'http://localhost:3000/'
+const userURL = baseURL + 'users/'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,25 +36,47 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard(props) {
     const classes = useStyles()
-    const user = JSON.parse(localStorage.userData)
+    const [ currentUser, setCurrentUser ] = useState({})
+    const [ friendList, setFriendList ] = useState([])
+    const user = currentUser
     const createAt = new Date( user.created_at ).toString().split(' 2020')[0]
-
-    console.log(user.friends)
+    
+    useEffect(() => {
+        const user = JSON.parse(localStorage.userData)
+        fetch( userURL + user.id )
+        .then( resp => resp.json() )
+        .then( data => {
+            setCurrentUser( data.user )
+            setFriendList( data.user.friends )
+        })
+    }, [])
 
     const handelLogOut = () => {
         localStorage.clear()
         props.history.push("/login")
     }
 
-    const handleNewGame = () => {
-        props.history.push("/game")
+    const handleNewGame = () => props.history.push("/game")
+
+    const handleJoinGame = () => props.history.push("/creategame")
+
+    const displayFriendList = () => {
+        return friendList.map( ( friend, idx ) =>
+            <p key={idx}> {friend.name} </p>
+        )
     }
 
-    const handleJoinGame = () => {
-        props.history.push("/creategame")
+    const handleFindFriends = () => {
+        props.history.push({
+            pathname: '/friends',
+            state: {
+                currentUser: currentUser,
+                friendList: friendList,
+                // setFriendList: setFriendList
+            }
+        })
     }
 
-    
     return(
         <Container maxWidth="lg">
             <Grid container direction='row' justify='space-evenly' alignItems='center' className={classes.gridStyle} >
@@ -71,17 +96,28 @@ function Dashboard(props) {
                     
                     <Grid item xs={4} >
                         <Paper elevation={4} className={classes.buttonStyle}>
-                            <Button onClick={handleNewGame} variant='contained' color='primary'>Solo Game</Button>
-                            <Button onClick={handleJoinGame} variant='contained' color='primary'>Multi-Player Game</Button>
-                            {/* <Button variant='contained' color='primary'>More Options</Button> */}
+                            <Button
+                                onClick={handleNewGame}
+                                variant='contained' color='primary'
+                                >Solo Game
+                            </Button>
+                            <Button
+                                onClick={handleJoinGame}
+                                variant='contained' color='primary'
+                                >Multi-Player Game
+                            </Button>
                         </Paper>
                     </Grid>
                 </Grid>
                 <Grid item xs={2} style={{ marginBotton: '300px' }}>
                     <Paper elevation={6} style={{ height: '500px', textAlign: 'center', padding: '5px'}}>
                         <h2>Friend List</h2>
-                        { user.friends.map( ( f, idx ) => <p key={idx}> {f.username} </p>) }
-                        <Button onClick={() => props.history.push("/friends") } variant='outlined' color='primary'>Find Friends</Button>
+                        {displayFriendList()}
+                        <Button
+                            onClick={ () => handleFindFriends() }
+                            variant='outlined' color='primary'
+                            >Find Friends
+                        </Button>
                     </Paper>
                 </Grid>
             </Grid>

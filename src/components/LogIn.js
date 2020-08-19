@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -60,9 +60,9 @@ const LogIn = (props) => {
 
   const classes = useStyles();
 
-  const openSnackBar = () => {
-    setOpen(true);
-  }
+  useEffect( () => localStorage.clear(), [] ) // clears the localStorage data upon component mount
+
+  const openSnackBar = () => setOpen(true)
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {

@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import DeleteIcon from '@material-ui/icons/Delete';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import HomeIcon from '@material-ui/icons/Home';
 
 const baseURL = 'http://localhost:3000/'
 const userURL = baseURL + 'users/'
@@ -41,100 +42,106 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function generateUsers(userList) {
-  const currentUser = JSON.parse(localStorage.userData)
-  // console.log(userList)
-  // console.log(currentUser.friends)
-  userList = userList.filter( user => user.id !== currentUser.id)
-  // userList = userList.filter( user => {
-  //   // console.log(user)
-  //   // console.log(currentUser.friends)
-  //   // !currentUser.friends.includes(user)
-  //   if ( !currentUser.friends.includes(user) ) {
-  //     console.log(user)
-  //     console.log(currentUser.friends)
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // } )
-
-  return userList.map( ( user, idx) => 
-    <ListItem style={{ textAlign: 'center'}} key={idx}>
-      <ListItemAvatar>
-        <Avatar src="/broken-image.jpg" style={{marginRight: '0px'}} />
-      </ListItemAvatar>
-      <ListItemText
-        primary= { user.name }
-        secondary='Secondary text'
-      />
-      <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="delete" onClick={ (e) => handleAddFriend( user.id )}>
-          <GroupAddIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
-    </ListItem>,
-  )
-}
-function generateFriends() {
-  const user = JSON.parse(localStorage.userData)
-
-  return user.friends.map( ( friend, idx ) =>
-    <ListItem key={friend.id}>
-      <ListItemAvatar>
-        <Avatar src="/broken-image.jpg"/>
-      </ListItemAvatar>
-      <ListItemText
-        primary={ friend.name }
-        secondary= { friend.username }
-      />
-      <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="delete">
-          <DeleteIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
-    </ListItem>,
-  )
-}
-
-function handleAddFriend( friendId ) {
-  const userId = JSON.parse(localStorage.userData).id
-  console.log(userId)
-  console.log(friendId)
-
-  const postRequest = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      user_id: userId,
-      friend_id: friendId
-    })
-  }
-
-  fetch(friendURL, postRequest)
-    .then( resp => resp.json() )
-    .then( data => console.log(data))
-
-}
-
-const Friends = () => {
+const Friends = (props) => {
   const classes = useStyles()
   const [ userList, setUserList ] = useState([])
+  const [ friendList, setFriendList ] = useState([])
+  const currentUser = props.history.location.state.currentUser
 
   useEffect( () => {
     console.log('runs useEffect method')
+
+    setFriendList(props.history.location.state.friendList)
 
     fetch(userURL)
       .then( resp => resp.json() )
       .then( data => setUserList( data.users ))
   }, [])
+
+  function handleAddFriend( friendId ) {
+    let friendIds = friendList.map( friend => friend.id )
+  
+    const postRequest = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: currentUser.id,
+        friend_id: friendId
+      })
+    }
+  
+    fetch(friendURL, postRequest)
+      .then( resp => resp.json() )
+      .then( data => {
+        console.log(data)
+        const friendObj = userList.filter( user => user.id === friendId )[0]
+        console.log('frined obj', friendObj)
+        setFriendList( [...friendList, friendObj] )
+
+
+        friendIds = friendList.map( friend => friend.id )
+        console.log(friendIds)
+        // const updatedUserList = userList.filter( user => !friendIds.includes(user.id))
+        // console.log( updatedUserList )
+        // setUserList( updatedUserList )
+      })
+  }
+
+  function generateFriends() {
+    console.log('renders friendlist')
+    // const friendList = props.history.location.state.friendList
+    // setFriendList(props.history.location.state.friendList)
+  
+    return friendList.map( ( friend, idx ) =>
+      <ListItem key={friend.id}>
+        <ListItemAvatar>
+          <Avatar src="/broken-image.jpg"/>
+        </ListItemAvatar>
+        <ListItemText
+          primary={ friend.name }
+          secondary= { friend.username }
+        />
+        <ListItemSecondaryAction>
+          <IconButton edge="end" aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>,
+    )
+  }
+
+  function generateUsers(userList) {
+    const currentUser = props.history.location.state.currentUser
+    const friendIds = friendList.map( user => user.id )
+
+    userList = userList.filter( user => user.id !== currentUser.id )
+  
+    return userList.map( ( user, idx) => 
+      <ListItem style={{ textAlign: 'center'}} key={idx}>
+        <ListItemAvatar>
+          <Avatar src="/broken-image.jpg" style={{marginRight: '0px'}} />
+        </ListItemAvatar>
+        <ListItemText
+          primary= { user.name }
+          secondary= { user.username }
+        />
+        { !friendIds.includes( user.id ) ?
+        <IconButton edge="end" aria-label="delete" onClick={ (e) => handleAddFriend( user.id )}>
+          <GroupAddIcon />
+        </IconButton>
+        : 'already friends'
+        }
+      </ListItem>,
+    {/* && !friendIds.includes( user.id ) */}
+    )
+  }
   
   return (
     <>
       <Container maxWidth="lg">
-        <Grid container justify='space-evenly' alignItems='center' spacing={9} className={classes.gridStyle}>
+        <Grid container justify='center' alignItems='center' spacing={10} className={classes.gridStyle}>
           <Grid item xs={4} style={{ marginBotton: '300px'}}>
             <Paper elevation={6} style={{ height: '500px', textAlign: 'center', padding: '5px'}}>
               <Grid container spacing={2}>
@@ -151,6 +158,9 @@ const Friends = () => {
               </Grid>
             </Paper>
           </Grid>
+          <IconButton style={{backgroundColor: '#4791db'}} onClick={ () => props.history.push('/dashboard')} >
+            <HomeIcon />
+          </IconButton>
           <Grid item xs={4} style={{ marginBotton: '300px'}}>
             <Paper elevation={6} style={{ height: '500px', textAlign: 'center', padding: '5px'}}>
             <Grid container spacing={2}>
@@ -160,7 +170,7 @@ const Friends = () => {
                 </Typography>
                 <div>
                   <List >
-                    {generateUsers(userList)}
+                    { generateUsers(userList) }
                   </List>
                 </div>
               </Grid>
