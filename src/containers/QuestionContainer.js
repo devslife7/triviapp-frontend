@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Category from '../components/Category';
 import Question from '../components/Question';
 import Answers from '../components/Answers';

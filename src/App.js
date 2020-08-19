@@ -7,6 +7,7 @@ import LogIn from './components/LogIn'
 import SignUp from './components/SignUp'
 import 'fontsource-roboto'
 import Dashboard from './components/Dashboard'
+import Friends from './components/Friends'
 
 export default class App extends React.Component {
   state = {
@@ -23,6 +24,7 @@ export default class App extends React.Component {
       <Route exact path='/signup' render={ routerProps => <SignUp {...routerProps} handleSignup={this.handleSignup} />} />
 
       <Route exact path='/game' component={GameContainer} />
+      <Route exact path='/friends' component={Friends} />
       <Route exact path='/dashboard' render={ routerProps => <Dashboard {...routerProps} userData={this.state.userData} />} />
     </Router>
     )
