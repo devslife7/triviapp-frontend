@@ -56,13 +56,13 @@ const CreateGame = (props) => {
         .then(resp => resp.json())
         .then(data => {
             localStorage.usergame = data.game.user_games[0].id
-            // props.history.push({
-            //     pathname: '/gamelobby',
-            //     state: { 
-            //         name: name,
-            //         gameId: data.game.id
-            //     }
-            // })
+            props.history.push({
+                pathname: '/gamelobby',
+                state: { 
+                    name: name,
+                    gameId: data.game.id
+                }
+            })
         })
         
     }

@@ -75,8 +75,7 @@ function Dashboard(props) {
                     
                     <Grid item xs={4} >
                         <Paper elevation={4} className={classes.buttonStyle}>
-                            <Button onClick={handleNewGame} variant='contained' color='primary'>Solo Game</Button>
-                            <Button onClick={handleCreateGame} variant='contained' color='primary'>Multi-Player Game</Button>
+                            <Button onClick={handleCreateGame} variant='contained' color='primary'>Create Game</Button>
                             <Button onClick={handleJoinGame} variant='contained' color='primary'>Join Game</Button>
                             {/* <Button variant='contained' color='primary'>More Options</Button> */}
                         </Paper>
