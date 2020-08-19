@@ -69,7 +69,7 @@ const GameLobby = (props) => {
     }
 
     useEffect(() => {
-        setTimeout(endWait, 30000)
+        setTimeout(endWait, 10000)
         const getUsers = setInterval(()=> {
             fetch(`${BASEURL}${props.location.state.gameId}`)
             .then(resp => resp.json())

@@ -6,7 +6,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 
 Modal.setAppElement('#root') // removes erros caused by Modal
 
-const BASEURL = "http://localhost:3000/questions"
+const BASEURL = "http://localhost:3000/"
 
 const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -25,16 +25,16 @@ export default class GameContainer extends Component {
     }
     
     componentDidMount(){
-        fetch(BASEURL, {
+        fetch(`${BASEURL}games/${this.props.location.state.gameId}`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${localStorage.token}` // send token back to server
             }
         })
         .then(resp => resp.json())
-        .then(questions => {
+        .then(data => {
             this.setState({
-                questions: questions.map(newQuestion => {
+                questions: data.game.questions.map(newQuestion => {
                     let fixedQuestion = this.fixEntities(newQuestion.question)
                     let fixedCorrect = this.fixEntities(newQuestion.correct)
                     let fixedIncorrect1 = this.fixEntities(newQuestion.incorrect1)
@@ -71,9 +71,8 @@ export default class GameContainer extends Component {
             right = false
             wrong = true
         }
-        if (this.state.index < 9){
+        if (this.state.index < this.state.questions.length - 1){
             this.setState({
-                // index: this.state.index + 1,
                 points: this.state.points + number,
                 rightAnswer: rightAnswer,
                 right: right,
@@ -87,7 +86,30 @@ export default class GameContainer extends Component {
                 rightAnswer: rightAnswer,
                 right: right,
                 wrong: wrong,
-            }, this.setModalIsOpen)
+            })
+            setTimeout(()=> {
+                const userGameObj = {"usergame": {
+                    "score": this.state.points
+                }}
+
+                const userGameConfig = {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(userGameObj)
+                }
+                
+                fetch(`${BASEURL}user_games/${localStorage.usergame}`, userGameConfig)
+                .then(resp => resp.json())
+                .then(data => console.log(data))
+                this.props.history.push({
+                    pathname: '/endgame',
+                    state: { 
+                        gameId: this.props.location.state.gameId,
+                    }
+                })
+            }, 1500)
         }
     }
 
