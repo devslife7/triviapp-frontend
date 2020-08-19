@@ -12,7 +12,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
 
-const BASEURL = "http://localhost:3000/"
+const baseURL = "http://localhost:3000/"
+const usersURL = baseURL + 'users/'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -86,7 +87,7 @@ export default function SignUp(props) {
       body: JSON.stringify(user)
     }
 
-    fetch(`${BASEURL}users`, userConfig)
+    fetch(usersURL, userConfig)
     .then(resp => resp.json())
     .then(data => {
       if(data.error){
@@ -94,12 +95,8 @@ export default function SignUp(props) {
         openSnackBar()
       }
       else{
-        console.log(data.user)
         localStorage.token = data.jwt
-        localStorage.username = data.user.username
-        localStorage.name = data.user.name
-        localStorage.created_at = new Date(data.user.created_at)
-
+        localStorage.userData = JSON.stringify( data.user )
         props.history.push("/dashboard")
       }
     })
