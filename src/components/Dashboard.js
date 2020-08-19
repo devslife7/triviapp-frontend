@@ -18,26 +18,27 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(7),
         height: theme.spacing(7),
     },
-}));
-
-const gridStyle = {
-    backgroundColor: '#f1f1f1',
-    borderRadius: '10px',
-    padding: '80px 0px'
-}
-
-const buttonStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '50px 80px',
-    width: '300px'
-}
+    gridStyle: {
+        backgroundColor: '#EAEAEA',
+        borderRadius: '10px',
+        padding: '80px 0px'
+    },
+    buttonStyle: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '50px 80px',
+        width: '300px'
+    }
+}))
 
 function Dashboard(props) {
     const classes = useStyles()
+    const user = JSON.parse(localStorage.userData)
+    const createAt = new Date( user.created_at ).toString().split(' 2020')[0]
+
+    console.log(user.friends)
 
     const handelLogOut = () => {
-        // console.log('enters log out')
         localStorage.clear()
         props.history.push("/login")
     }
@@ -53,14 +54,14 @@ function Dashboard(props) {
     
     return(
         <Container maxWidth="lg">
-            <Grid container direction='row' justify='space-evenly' alignItems='center' style={gridStyle} >
+            <Grid container direction='row' justify='space-evenly' alignItems='center' className={classes.gridStyle} >
                 <Grid item xs={6} container direction='column' justify='space-between' alignItems='center' spacing={10} >
                     <Grid item xs={12}>
-                        <Paper elevation={4} style={{ textAlign: 'center', padding: '30px', width: '350px' }}>
+                        <Paper elevation={6} style={{ textAlign: 'center', padding: '30px', width: '350px' }}>
                             <Avatar src="/broken-image.jpg" style={{margin: 'auto'}} className={classes.large}/>
-                            <h3>Welcome, {localStorage.name}!</h3>
-                            <h3>{localStorage.username}</h3>
-                            <p>Member since: {localStorage.created_at.split(' 2020')[0]}</p>
+                            <h3>Welcome, {user.name}!</h3>
+                            <h3>{user.username}</h3>
+                            <p>Member since: { createAt }</p>
                             <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '40px'}}>
                                 <Button variant='outlined' color='primary'>Edit</Button>
                                 <Button onClick={handelLogOut} variant='outlined' color='primary'>Log out</Button>
@@ -69,7 +70,7 @@ function Dashboard(props) {
                     </Grid>
                     
                     <Grid item xs={4} >
-                        <Paper elevation={4} style={buttonStyle}>
+                        <Paper elevation={4} className={classes.buttonStyle}>
                             <Button onClick={handleNewGame} variant='contained' color='primary'>Solo Game</Button>
                             <Button onClick={handleJoinGame} variant='contained' color='primary'>Multi-Player Game</Button>
                             {/* <Button variant='contained' color='primary'>More Options</Button> */}
@@ -77,12 +78,10 @@ function Dashboard(props) {
                     </Grid>
                 </Grid>
                 <Grid item xs={2} style={{ marginBotton: '300px' }}>
-                    <Paper elevation={4} style={{ height: '500px', textAlign: 'center', padding: '5px'}}>
-                        <h2>History</h2>
-                        <p>Game 1</p>
-                        <p>Game 2</p>
-                        <p>Game 3</p>
-                        <p>Game 4</p>
+                    <Paper elevation={6} style={{ height: '500px', textAlign: 'center', padding: '5px'}}>
+                        <h2>Friend List</h2>
+                        { user.friends.map( ( f, idx ) => <p key={idx}> {f.username} </p>) }
+                        <Button variant='outlined' color='primary'>Find Friends</Button>
                     </Paper>
                 </Grid>
             </Grid>

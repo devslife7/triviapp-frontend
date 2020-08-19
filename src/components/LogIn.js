@@ -96,12 +96,9 @@ const LogIn = (props) => {
           openSnackBar()
         }
         else {
-          console.log(data.user)
+          console.log(data)
           localStorage.token = data.jwt
-          localStorage.username = data.user.username
-          localStorage.name = data.user.name
-          localStorage.created_at = new Date(data.user.created_at)
-
+          localStorage.userData = JSON.stringify( data.user )
           props.history.push("/dashboard")
         }
       })
