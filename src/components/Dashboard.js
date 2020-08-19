@@ -56,8 +56,6 @@ function Dashboard(props) {
         props.history.push("/login")
     }
 
-    const handleNewGame = () => props.history.push("/game")
-
     const displayFriendList = () => {
         return friendList.map( ( friend, idx ) =>
             <p key={idx}> {friend.name} </p>
