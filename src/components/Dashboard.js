@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
 
-const baseURL = 'http://localhost:3000/'
+const baseURL = 'https://protected-caverns-01934.herokuapp.com/'
 const userURL = baseURL + 'users/'
 
 const useStyles = makeStyles((theme) => ({

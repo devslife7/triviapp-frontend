@@ -6,7 +6,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 
 Modal.setAppElement('#root') // removes erros caused by Modal
 
-const BASEURL = "http://localhost:3000/"
+const BASEURL = "https://protected-caverns-01934.herokuapp.com/"
 
 const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;

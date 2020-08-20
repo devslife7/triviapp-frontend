@@ -16,7 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import HomeIcon from '@material-ui/icons/Home';
 
-const baseURL = 'http://localhost:3000/'
+const baseURL = 'https://protected-caverns-01934.herokuapp.com/'
 const userURL = baseURL + 'users/'
 const friendURL = baseURL + 'friendships/'
 
