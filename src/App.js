@@ -27,7 +27,7 @@ export default class App extends React.Component {
       <Route exact path='/login' render={ routerProps => <LogIn {...routerProps} handleLogin={this.handleLogin} />} />
       <Route exact path='/signup' render={ routerProps => <SignUp {...routerProps} handleSignup={this.handleSignup} />} />
 
-      <Route exact path='/game' component={GameContainer} />
+      <Route exact path='/game' render={ routerProps => <GameContainer {...routerProps}/>} />
       <Route exact path='/friends' component={Friends} />
       <Route exact path='/dashboard' render={ routerProps => <Dashboard {...routerProps} userData={this.state.userData} />} />
       <Route exact path='/gamelobby' render={ routerProps => <GameLobby {...routerProps} username={localStorage.username}/>} />
