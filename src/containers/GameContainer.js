@@ -97,16 +97,16 @@ const GameContainer = (props) => {
     }
 
     const handleWrongClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+        // if (reason === 'clickaway') {
+        //     return;
+        // }
         setWrong(false)
     };
 
     const handleRightClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+        // if (reason === 'clickaway') {
+        //     return;
+        // }
         setRight(false)
     };
 
