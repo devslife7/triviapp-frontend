@@ -22,7 +22,7 @@ const GameContainer = (props) => {
         fetch(`${BASEURL}games/${props.location.state.gameId}`, {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${localStorage.token}` // send token back to server
+                Authorization: `Bearer ${localStorage.token}`
             }
         })
         .then(resp => resp.json())
