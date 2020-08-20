@@ -112,7 +112,6 @@ const GameContainer = (props) => {
 
     return(
         <div style={{ textAlign: 'center' }}>
-            <h1>TEST</h1>
             { questions.length !== 0
             ? <QuestionContainer
                 question={sendQuestion()} 
