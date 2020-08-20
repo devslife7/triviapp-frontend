@@ -12,11 +12,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Question = (props) => {
     const classes = useStyles()
-
         return(
-            // <div className="question">
-            //     {this.props.question}
-            // </div>
             <Typography variant="h5" gutterBottom className={classes.root}>
                 {props.question}
             </Typography>
