@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const BASEURL= "http://localhost:3000/games/"
+const BASEURL= "https://protected-caverns-01934.herokuapp.com/games/"
 
 
 const EndGame = (props) => {
