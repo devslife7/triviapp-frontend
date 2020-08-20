@@ -110,7 +110,7 @@ const GameContainer = (props) => {
         setRight(false)
     };
 
-    return (
+    return(
         <div style={{ textAlign: 'center' }}>
             { questions.length !== 0
             ? <QuestionContainer
