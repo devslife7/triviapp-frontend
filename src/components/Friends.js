@@ -5,9 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar'
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button'
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -18,8 +16,8 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import DeleteIcon from '@material-ui/icons/Delete';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import HomeIcon from '@material-ui/icons/Home';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 
 const baseURL = 'https://protected-caverns-01934.herokuapp.com/'
 const userURL = baseURL + 'users/'
@@ -51,18 +49,38 @@ const Friends = (props) => {
   const classes = useStyles()
   const [ userList, setUserList ] = useState([])
   const [ friendList, setFriendList ] = useState([])
-  const [ searchTerm, setSearchTerm ] = React.useState('')
+  const [ searchTerm, setSearchTerm ] = useState('')
+  const [ colorCycle, setColorCycle ] = useState('')
   const currentUser = props.history.location.state.currentUser
 
   useEffect( () => {
-    console.log('runs useEffect method')
+
+    const interval = setInterval( cyclesColors , 1000)
 
     setFriendList(props.history.location.state.friendList)
 
     fetch(userURL)
       .then( resp => resp.json() )
       .then( data => setUserList( data.users ))
+
+    return () => {
+      clearInterval(interval)
+    }
   }, [])
+
+  const cyclesColors = () => {
+    const index = colorsArray[Math.floor(Math.random() * colorsArray.length)]
+    setColorCycle( index )
+  }
+
+  const colorsArray = [
+    '#e33371',
+    '#81c784',
+    '#e57373',
+    '#4791db',
+    '#ffb74d',
+    '#64b5f6'
+  ]
 
   function handleAddFriend( friendId ) {
     let friendIds = friendList.map( friend => friend.id )
@@ -81,22 +99,22 @@ const Friends = (props) => {
     fetch(friendURL, postRequest)
       .then( resp => resp.json() )
       .then( data => {
-        console.log(data)
+        // console.log(data)
         const friendObj = userList.filter( user => user.id === friendId )[0]
-        console.log('frined obj', friendObj)
+        // console.log('frined obj', friendObj)
         setFriendList( [...friendList, friendObj] )
 
 
         friendIds = friendList.map( friend => friend.id )
-        console.log(friendIds)
+        // console.log(friendIds)
       })
   }
 
   function generateFriends() {
-    console.log('renders friendlist')
+    // console.log('renders friendlist')
   
     return friendList.map( ( friend, idx ) =>
-      <ListItem key={friend.id}>
+      <ListItem key={friend.id} style={{ paddingLeft: '100px'}}>
         <ListItemAvatar>
           <Avatar src="/broken-image.jpg"/>
         </ListItemAvatar>
@@ -104,11 +122,11 @@ const Friends = (props) => {
           primary={ friend.name }
           secondary= { friend.username }
         />
-        <ListItemSecondaryAction>
+        {/* <ListItemSecondaryAction style={{ paddingRight: '50px'}}>
           <IconButton edge="end" aria-label="delete">
             <DeleteIcon />
           </IconButton>
-        </ListItemSecondaryAction>
+        </ListItemSecondaryAction> */}
       </ListItem>,
     )
   }
@@ -123,7 +141,7 @@ const Friends = (props) => {
     userList = userList.filter( user => user.name.toLowerCase().includes(searchTerm.toLowerCase()) )
   
     return userList.map( ( user, idx) => 
-      <ListItem style={{ textAlign: 'center'}} key={idx}>
+      <ListItem style={{ paddingLeft: '80px'}} key={idx}>
         <ListItemAvatar>
           <Avatar src="/broken-image.jpg" style={{marginRight: '0px'}} />
         </ListItemAvatar>
@@ -132,18 +150,13 @@ const Friends = (props) => {
           secondary= { user.username }
         />
         { !friendIds.includes( user.id ) ?
-        <IconButton edge="end" aria-label="delete" onClick={ (e) => handleAddFriend( user.id )}>
+        <IconButton edge="end" aria-label="delete" onClick={ (e) => handleAddFriend( user.id )} style={{paddingRight: '60px'}}>
           <GroupAddIcon color='primary' />
         </IconButton>
-        : <PersonAddDisabledIcon color='disabled' />
+        : <PersonAddDisabledIcon color='disabled' style={{paddingRight: '50px'}}/>
         }
       </ListItem>,
     )
-  }
-  const [age, setAge] = React.useState('')
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
   }
   
   return (
@@ -152,56 +165,46 @@ const Friends = (props) => {
         <Grid container justify='center' alignItems='center' spacing={10} className={classes.gridStyle}>
           <Grid item xs={4} style={{ marginBotton: '300px'}}>
             <Paper elevation={2} >
-              <Typography variant="h5" className={classes.title} style={{ textAlign: 'center' }}>
-                Friend List
-              </Typography>
             </Paper>
-            <Paper elevation={6} style={{ height: '600px', textAlign: 'center', padding: '5px'}}>
+            <Paper elevation={6} style={{ height: '650px', textAlign: 'center', padding: '5px'}}>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6} style={{ maxWidth: '100%', flexBasis: '100%'}}>
-                  <div>
-                    <List>
+                  <Typography variant="h5" className={classes.title} style={{ textAlign: 'center', margin: '12px 0px', color: '#4791db', fontSize: "29px"}}>
+                    Friend List
+                  </Typography>
+                  <Paper>
+                    <List style={{ height: '518px', overflow: 'auto'}}>
                       { generateFriends() }
                     </List>
-                  </div>
+                  </Paper>
+                  <Button
+                      onClick={ () => props.history.push('/dashboard')}
+                      style={{ marginTop: '12px', backgroundColor: '#4791db', color: 'white'}}
+                      variant='contained'
+                      >Dashboard
+                  </Button>
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
-          <IconButton style={{backgroundColor: '#4791db'}} onClick={ () => props.history.push('/dashboard')} >
-            <HomeIcon />
+          <IconButton style={{backgroundColor: colorCycle, color: 'white' }} onClick={ () => props.history.push('/dashboard')} >
+            <SwapHorizIcon fontSize='large' />
           </IconButton>
           <Grid item xs={4} style={{ marginBotton: '100px'}}>
-            <Paper elevation={6} style={{ marginBottom: '5px'}} >
-                <Typography variant="h5" className={classes.title} style={{ textAlign: 'center' }}>
-                  All Users
-                </Typography>
-                <div style={{ display: 'flex'}}>
-                  <TextField onChange={ e => setSearchTerm(e.target.value) } id="standard-basic" label="Search Users..." style={{ margin: '0px 20px 20px 20px'}}/>
-                  <InputLabel id="demo-simple-select-label">Sort</InputLabel>
-                  <Select
-                    value={age}
-                    onChange={handleChange}
-                    displayEmpty
-                    className={classes.selectEmpty}
-                    inputProps={{ 'aria-label': 'Without label' }}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Alph. Up</MenuItem>
-                    <MenuItem value={20}>Alph. Down</MenuItem>
-                  </Select>
-                </div>  
-            </Paper>
-            <Paper elevation={5} style={{ height: '500px', textAlign: 'center', padding: '5px', overflow: 'auto'}}>
+            <Paper elevation={5} style={{ height: '650px', textAlign: 'center', padding: '5px'}}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6} style={{ maxWidth: '100%', flexBasis: '100%'}}>
-                <div >
-                  <List>
+                <Typography variant="h5" style={{ textAlign: 'center', marginTop: '10px', marginBotton: '0px', color: '#4791db', fontSize: "28px"}}>
+                  All Users
+                </Typography>
+                <div style={{ display: 'flex', justify: 'center'}}>
+                  <TextField onChange={ e => setSearchTerm(e.target.value) } label="Search Users..." style={{ margin: '0px 20px 10px 40px'}}/>
+                </div>  
+                <Paper>
+                  <List style={{ height: '532px', overflow: 'auto'}} >
                     { generateUsers(userList) }
                   </List>
-                </div>
+                </Paper>
               </Grid>
             </Grid>
             </Paper>

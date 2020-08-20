@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -96,9 +94,10 @@ const LogIn = (props) => {
           openSnackBar()
         }
         else {
-          console.log(data)
+          // console.log(data)
           localStorage.token = data.jwt
           localStorage.username = data.user.username
+          localStorage.name = data.user.name
           localStorage.userData = JSON.stringify( data.user )
           props.history.push("/dashboard")
         }

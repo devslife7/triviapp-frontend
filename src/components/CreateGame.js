@@ -75,7 +75,7 @@ const CreateGame = (props) => {
                     Create Game
                 </Typography>
                 <TextField id="name" label="Name" variant="outlined" onChange={(e) => handleChange(e.target.value)}/>
-                <Button variant="contained" color="primary" className={classes.typography} onClick={(e) => handleClick(e)}>
+                <Button variant="contained" color="primary" className={classes.typography} onClick={(e) => handleClick(e)} style={{ backgroundColor: '#4791db', color: 'white', padding: '10px 20px'}}>
                     Create Game
                 </Button>
             </Paper>
