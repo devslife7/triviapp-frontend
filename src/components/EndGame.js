@@ -77,7 +77,7 @@ const EndGame = (props) => {
     }
 
     useEffect(() => {
-        setTimeout(endWait, 60000)
+        setTimeout(endWait, 120000)
         const getUsers = setInterval(()=> {
             fetch(`${BASEURL}${props.location.state.gameId}`)
             .then(resp => resp.json())
@@ -90,10 +90,10 @@ const EndGame = (props) => {
                 let newUsers = data.game.user_games.filter(usergame => !!usergame.score).map(usergame => {
                         return { username: usergame.user.username, score: usergame.score }
                 })
-                if (newUsers.length === data.game.user_games.length){
-                    endWait()
-                }
                 setUsers(newUsers)
+                if (newUsers.length === data.game.user_games.length){
+                    setTimeout(endWait, 1000)
+                }
             })
             }, 1000)
         return () => clearInterval(getUsers);
