@@ -90,6 +90,9 @@ const EndGame = (props) => {
                 let newUsers = data.game.user_games.filter(usergame => !!usergame.score).map(usergame => {
                         return { username: usergame.user.username, score: usergame.score }
                 })
+                if (newUsers.length === data.game.user_games.length){
+                    endWait()
+                }
                 setUsers(newUsers)
             })
             }, 1000)
