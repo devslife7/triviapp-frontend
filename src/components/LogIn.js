@@ -1,155 +1,149 @@
-import React, { useState, useEffect } from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import React, { useState, useEffect } from "react"
+import Button from "@material-ui/core/Button"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import TextField from "@material-ui/core/TextField"
+import { Link } from "react-router-dom"
+import Grid from "@material-ui/core/Grid"
+import Box from "@material-ui/core/Box"
+import Typography from "@material-ui/core/Typography"
+import { makeStyles } from "@material-ui/core/styles"
+import Container from "@material-ui/core/Container"
+import Snackbar from "@material-ui/core/Snackbar"
+import MuiAlert from "@material-ui/lab/Alert"
 
-const baseURL = 'https://protected-caverns-01934.herokuapp.com/'
-const logInURL = baseURL + '/login'
+const serverURL = process.env.REACT_APP_SERVER_URL
+const logInURL = serverURL + "/login"
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} variant='filled' {...props} />
 }
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      {' Triviapp '}
-      {' '}
-      {new Date().getFullYear()}
-      {'.'}
+    <Typography variant='body2' color='textSecondary' align='center'>
+      {"Copyright © "}
+      {" Triviapp "} {new Date().getFullYear()}
+      {"."}
     </Typography>
-  );
+  )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
+}))
 
-const LogIn = (props) => {
+const LogIn = props => {
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [open, setOpen] = useState(false)
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [open, setOpen] = useState(false);
+  const classes = useStyles()
 
-  const classes = useStyles();
+  console.log(serverURL)
 
-  useEffect( () => localStorage.clear(), [] ) // clears the localStorage data upon component mount
+  useEffect(() => localStorage.clear(), []) // clears the localStorage data upon component mount
 
   const openSnackBar = () => setOpen(true)
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
+    if (reason === "clickaway") {
+      return
     }
 
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
-  const handleLogin = (e) => {
+  const handleLogin = e => {
     e.preventDefault()
     let user = {
       user: {
         username: username,
-        password: password
-      }
+        password: password,
+      },
     }
     let userConfig = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(user),
     }
 
-    fetch( logInURL, userConfig )
+    fetch(logInURL, userConfig)
       .then(resp => resp.json())
       .then(data => {
-        if (data.message){
-          console.error('Error:', data.message);
+        if (data.message) {
+          console.error("Error:", data.message)
           openSnackBar()
-        }
-        else {
+        } else {
           // console.log(data)
           localStorage.token = data.jwt
           localStorage.username = data.user.username
           localStorage.name = data.user.name
-          localStorage.userData = JSON.stringify( data.user )
+          localStorage.userData = JSON.stringify(data.user)
           props.history.push("/dashboard")
         }
       })
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
+        <Typography component='h1' variant='h5'>
           Login
         </Typography>
-        <form className={classes.form} noValidate onSubmit={(e) => handleLogin(e)}>
+        <form className={classes.form} noValidate onSubmit={e => handleLogin(e)}>
           <TextField
-            variant="outlined"
-            margin="normal"
+            variant='outlined'
+            margin='normal'
             required
             fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
+            id='username'
+            label='Username'
+            name='username'
+            autoComplete='username'
             autoFocus
-            onChange={ (e) => {
+            onChange={e => {
               setUsername(e.target.value)
-            } }
+            }}
           />
           <TextField
-            variant="outlined"
-            margin="normal"
+            variant='outlined'
+            margin='normal'
             required
             fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={ (e) => {setPassword(e.target.value)} }
+            name='password'
+            label='Password'
+            type='password'
+            id='password'
+            autoComplete='current-password'
+            onChange={e => {
+              setPassword(e.target.value)
+            }}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
+          <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
             Log In
           </Button>
           <Grid container>
             <Grid item>
-              <Link to="/signup" variant="body2">
+              <Link to='/signup' variant='body2'>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
@@ -160,12 +154,12 @@ const LogIn = (props) => {
         <Copyright />
       </Box>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error">
+        <Alert onClose={handleClose} severity='error'>
           Invalid Username or Password
         </Alert>
       </Snackbar>
     </Container>
-  );
+  )
 }
 
 export default LogIn
