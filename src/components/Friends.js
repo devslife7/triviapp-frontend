@@ -21,8 +21,8 @@ import SwapHorizIcon from "@material-ui/icons/SwapHoriz"
 
 const serverURL = process.env.REACT_APP_SERVER_URL
 
-const userURL = serverURL + "/users/"
-const friendURL = serverURL + "/friendships/"
+const userURL = serverURL + "users/"
+const friendURL = serverURL + "friendships/"
 
 const useStyles = makeStyles(theme => ({
   root: {

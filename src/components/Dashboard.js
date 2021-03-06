@@ -18,7 +18,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import TextField from "@material-ui/core/TextField"
 
 const serverURL = process.env.REACT_APP_SERVER_URL
-const userURL = serverURL + "/users/"
+const userURL = serverURL + "users/"
 
 const useStyles = makeStyles(theme => ({
   root: {

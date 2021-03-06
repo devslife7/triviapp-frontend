@@ -73,7 +73,7 @@ const JoinGame = props => {
 
   useEffect(() => {
     const getGames = setInterval(() => {
-      fetch(`${serverURL}/games/`)
+      fetch(`${serverURL}games/`)
         .then(resp => resp.json())
         .then(data => {
           setGames(data.games)

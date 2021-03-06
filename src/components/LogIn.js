@@ -12,7 +12,7 @@ import Snackbar from "@material-ui/core/Snackbar"
 import MuiAlert from "@material-ui/lab/Alert"
 
 const serverURL = process.env.REACT_APP_SERVER_URL
-const logInURL = serverURL + "/login"
+const logInURL = serverURL + "login/"
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />
@@ -54,8 +54,6 @@ const LogIn = props => {
   const [open, setOpen] = useState(false)
 
   const classes = useStyles()
-
-  console.log(serverURL)
 
   useEffect(() => localStorage.clear(), []) // clears the localStorage data upon component mount
 
