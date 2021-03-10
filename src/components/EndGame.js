@@ -77,7 +77,7 @@ const EndGame = props => {
   }
 
   useEffect(() => {
-    setTimeout(endWait, 120000)
+    setTimeout(endWait, 10000)
     const getUsers = setInterval(() => {
       fetch(`${gamesURL}${props.location.state.gameId}`)
         .then(resp => resp.json())
