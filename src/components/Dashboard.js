@@ -63,7 +63,7 @@ function Dashboard(props) {
   const [open, setOpen] = React.useState(false)
 
   const user = currentUser
-  const createAt = new Date(user.created_at).toString().split(" 2020")[0]
+  const createAt = new Date(user.created_at).toString().split(" 19")[0]
 
   useEffect(() => {
     const user = JSON.parse(localStorage.userData)
