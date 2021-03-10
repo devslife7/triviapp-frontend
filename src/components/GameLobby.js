@@ -41,6 +41,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const serverURL = process.env.REACT_APP_SERVER_URL
+const gamesURL = serverURL + "games/"
 
 const GameLobby = props => {
   const [users, setUsers] = useState([])
@@ -61,7 +62,7 @@ const GameLobby = props => {
       },
       body: JSON.stringify(gameObj),
     }
-    fetch(`${serverURL}${props.location.state.gameId}`, gameConfig)
+    fetch(`${gamesURL}${props.location.state.gameId}`, gameConfig)
       .then(resp => resp.json())
       .then(data => {
         console.log(data)
@@ -74,7 +75,7 @@ const GameLobby = props => {
       setCreator(true)
     }
     const getUsers = setInterval(() => {
-      fetch(`${serverURL}${props.location.state.gameId}`)
+      fetch(`${gamesURL}${props.location.state.gameId}`)
         .then(resp => resp.json())
         .then(data => {
           if (data.game.waiting === false) {

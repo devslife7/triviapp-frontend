@@ -49,6 +49,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const serverURL = process.env.REACT_APP_SERVER_URL
+const gamesURL = serverURL + "games/"
 
 const EndGame = props => {
   const [users, setUsers] = useState([])
@@ -68,7 +69,7 @@ const EndGame = props => {
       },
       body: JSON.stringify(gameObj),
     }
-    fetch(`${serverURL}${props.location.state.gameId}`, gameConfig)
+    fetch(`${gamesURL}${props.location.state.gameId}`, gameConfig)
       .then(resp => resp.json())
       .then(data => {
         console.log(data)
@@ -78,7 +79,7 @@ const EndGame = props => {
   useEffect(() => {
     setTimeout(endWait, 120000)
     const getUsers = setInterval(() => {
-      fetch(`${serverURL}${props.location.state.gameId}`)
+      fetch(`${gamesURL}${props.location.state.gameId}`)
         .then(resp => resp.json())
         .then(data => {
           if (data.game.active === false) {

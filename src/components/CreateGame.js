@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 
 const serverURL = process.env.REACT_APP_SERVER_URL
+const gamesURL = serverURL + "games/"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,7 +54,7 @@ const CreateGame = props => {
       },
       body: JSON.stringify(gameObj),
     }
-    fetch(serverURL, gameConfig)
+    fetch(gamesURL, gameConfig)
       .then(resp => resp.json())
       .then(data => {
         localStorage.usergame = data.game.user_games[0].id
